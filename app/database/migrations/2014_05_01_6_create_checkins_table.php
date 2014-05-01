@@ -18,6 +18,10 @@ class CreateCheckinsTable extends Migration {
             $table->tinyInteger('checked_in')->unsigned();
             $table->tinyInteger('attempts')->unsigned();
         });
+
+        Schema::table('checkins', function($table) {
+            $table->foreign('reservation_id')->references('id')->on('reservations');
+        });
 	}
 
 	/**

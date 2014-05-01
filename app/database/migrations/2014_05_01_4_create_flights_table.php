@@ -19,6 +19,11 @@ class CreateFlightsTable extends Migration {
             $table->integer('airport_id')->unsigned();
             $table->timestamps();
         });
+
+        Schema::table('flights', function($table) {
+            $table->foreign('airline_id')->references('id')->on('airlines');
+            $table->foreign('airport_id')->references('id')->on('airports');
+        });
 	}
 
 	/**

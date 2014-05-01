@@ -20,6 +20,10 @@ class CreateReservationsTable extends Migration {
             $table->string('last_name', 20);
             $table->timestamps();
         });
+
+        Schema::table('reservations', function($table) {
+            $table->foreign('flight_id')->references('id')->on('flights');
+        });
 	}
 
 	/**
