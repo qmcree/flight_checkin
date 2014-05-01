@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="localhost" uploadOnCheckin="98616fff-7cc3-44ec-83ff-5be9d765a8ed">
+    <serverData>
+      <paths name="localhost">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/flight_checkin/app" local="$PROJECT_DIR$/app" web="/" />
+            <mapping deploy="/flight_checkin/public" local="$PROJECT_DIR$/public" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myUploadOnCheckinName" value="localhost" />
+  </component>
+</project>
+
