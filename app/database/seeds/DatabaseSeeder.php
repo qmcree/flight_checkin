@@ -56,17 +56,17 @@ class DatabaseSeeder extends Seeder {
         Flight::create(array(
             'date' => '2014-05-02 13:30:00',
             'airline_id' => 1,
-            'airport_id' => '',
+            'airport_id' => 1,
         ));
         Flight::create(array(
             'date' => '2014-05-02 17:30:00',
             'airline_id' => 1,
-            'airport_id' => '',
+            'airport_id' =>2 ,
         ));
         Flight::create(array(
             'date' => '2014-05-02 20:15:00',
             'airline_id' => 1,
-            'airport_id' => '',
+            'airport_id' => 3,
         ));
 
         Reservation::create(array(
