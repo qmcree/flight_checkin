@@ -50,6 +50,7 @@ class Checkin extends Eloquent
         ));
         return curl_exec($request);
 
+        // @see http://stackoverflow.com/a/7179233
         // CURLOPT_COOKIE	 The contents of the "Cookie: " header to be used in the HTTP request. Note that multiple cookies are separated with a semicolon followed by a space (e.g., "fruit=apple; colour=red")
     }
 } 
