@@ -32,6 +32,8 @@ class Checkin extends Eloquent
                 break;
         }*/
 
+        $reservation = $flight['relations']['reservation']['attributes'];
+
         $request = curl_init('https://www.southwest.com/flight/retrieveCheckinDoc.html');
         curl_setopt_array($request, array(
             CURLOPT_COOKIESESSION => true,
@@ -43,8 +45,14 @@ class Checkin extends Eloquent
             CURLOPT_CONNECTTIMEOUT => 20,
             CURLOPT_REFERER => 'https://www.southwest.com/flight/', // spoof
             CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36', // spoof
+            CURLOPT_POSTFIELDS => array(
+                'confirmationNumber' => $reservation['confirmation_number'],
+                'firstName' => $reservation['first_name'],
+                'lastName' => $reservation['last_name'],
+                'submitButton' => 'Check+In',
+            ),
         ));
-        $response1 = curl_exec($request);
+        return curl_exec($request);
 
         // CURLOPT_COOKIE	 The contents of the "Cookie: " header to be used in the HTTP request. Note that multiple cookies are separated with a semicolon followed by a space (e.g., "fruit=apple; colour=red")
     }
