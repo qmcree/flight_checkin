@@ -26,7 +26,7 @@ Route::post('reservation/{id}/delete', 'ReservationController@delete');
 
 // @todo remove.
 Route::get('debug', function() {
-    $flight = Flight::with('airline')->find(3);
+    $flight = Flight::with('reservation')->find(3);
     var_dump($flight);
     return;
 });
