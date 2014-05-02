@@ -44,6 +44,6 @@ class Flight extends Eloquent
      */
     public function reservation()
     {
-        return $this->belongsTo('Reservation');
+        return $this->belongsTo('Reservation', 'id', 'flight_id');
     }
 } 
