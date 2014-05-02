@@ -6,20 +6,20 @@ class Airport extends Eloquent
     protected $guarded = array('*');
 
     /**
-     * Defines inverse flight relation.
+     * Defines flight relation.
      * @return mixed
      */
     public function flights()
     {
-        return $this->belongsToMany('Flight');
+        return $this->hasMany('Flight');
     }
 
     /**
-     * Defines timezone relation.
+     * Defines inverse timezone relation.
      * @return mixed
      */
     public function timezone()
     {
-        return $this->hasOne('Timezone');
+        return $this->belongsTo('Timezone');
     }
 } 

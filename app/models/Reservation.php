@@ -5,20 +5,20 @@ class Reservation extends Eloquent
     protected $guarded = array('id', 'created_at', 'updated_at');
 
     /**
-     * Defines inverse checkin relation.
+     * Defines checkin relation.
      * @return mixed
      */
     public function checkin()
     {
-        return $this->belongsTo('Checkin');
+        return $this->hasOne('Checkin');
     }
 
     /**
-     * Defines flight relation.
+     * Defines inverse flight relation.
      * @return mixed
      */
     public function flight()
     {
-        return $this->hasOne('Flight');
+        return $this->belongsTo('Flight');
     }
 } 

@@ -6,11 +6,11 @@ class Timezone extends Eloquent
     protected $guarded = array('*');
 
     /**
-     * Defines inverse airport relation.
+     * Defines airport relation.
      * @return mixed
      */
     public function airports()
     {
-        return $this->belongsToMany('Airport');
+        return $this->hasMany('Airport');
     }
 } 

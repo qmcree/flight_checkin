@@ -21,29 +21,29 @@ class Flight extends Eloquent
     }
 
     /**
-     * Defines airline relation.
+     * Defines inverse airline relation.
      * @return mixed
      */
     public function airline()
     {
-        return $this->hasOne('Airline', 'id', 'airline_id');
+        return $this->belongsTo('Airline');
     }
 
     /**
-     * Defines airport relation.
+     * Defines inverse airport relation.
      * @return mixed
      */
     public function airport()
     {
-        return $this->hasOne('Airport', 'id', 'airport_id');
+        return $this->belongsTo('Airport');
     }
 
     /**
-     * Defines inverse reservation relation.
+     * Defines reservation relation.
      * @return mixed
      */
     public function reservation()
     {
-        return $this->belongsTo('Reservation', 'id', 'flight_id');
+        return $this->hasOne('Reservation');
     }
 } 

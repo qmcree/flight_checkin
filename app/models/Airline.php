@@ -6,11 +6,11 @@ class Airline extends Eloquent
     protected $guarded = array('id');
 
     /**
-     * Defines inverse flight relation.
+     * Defines flight relation.
      * @return mixed
      */
     public function flights()
     {
-        return $this->belongsToMany('Flight');
+        return $this->hasMany('Flight');
     }
 } 

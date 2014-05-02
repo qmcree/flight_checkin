@@ -6,12 +6,12 @@ class Checkin extends Eloquent
     protected $guarded = array('checked_in', 'attempts');
 
     /**
-     * Defines reservation relation.
+     * Defines inverse reservation relation.
      * @return mixed
      */
     public function reservation()
     {
-        return $this->hasOne('Reservation');
+        return $this->belongsTo('Reservation');
     }
 
     /**
