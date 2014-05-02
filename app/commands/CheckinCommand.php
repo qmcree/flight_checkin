@@ -37,6 +37,10 @@ class CheckinCommand extends Command {
 	 */
 	public function fire()
 	{
-		$this->info('Trying to checkin.');
+        date_default_timezone_set('UTC');
+        $now = date('Y-m-d H:i:s', time());
+
+		$flights = Flight::where('date', '>', $now);
+        $this->info('There are ' . $flights->count() . ' future flights.');
 	}
 }
