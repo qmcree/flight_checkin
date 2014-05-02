@@ -45,12 +45,8 @@ class Checkin extends Eloquent
             CURLOPT_CONNECTTIMEOUT => 20,
             CURLOPT_REFERER => 'https://www.southwest.com/flight/', // spoof
             CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36', // spoof
-            CURLOPT_POSTFIELDS => array(
-                'confirmationNumber' => $reservation['confirmation_number'],
-                'firstName' => $reservation['first_name'],
-                'lastName' => $reservation['last_name'],
-                'submitButton' => 'Check+In',
-            ),
+            CURLOPT_POSTFIELDS => sprintf('confirmationNumber=%s&firstName=%s&lastName=%s&submitButton=Check+In', $reservation['confirmation_number'],
+                $reservation['first_name'], $reservation['last_name']),
         ));
         return curl_exec($request);
 
