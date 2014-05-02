@@ -38,6 +38,7 @@ class CheckinCommand extends Command {
 	public function fire()
 	{
         $upcomingFlights = Flight::upcoming()->get();
-        $this->info('There are ' . $upcomingFlights->count() . ' flights within the next 24 hours.');
+
+
 	}
 }
