@@ -40,7 +40,7 @@ class CheckinCommand extends Command {
         date_default_timezone_set('UTC');
         $now = date('Y-m-d H:i:s', time());
 
-		$flights = Flight::where('date', '>', $now);
-        $this->info('There are ' . $flights->count() . ' future flights.');
+		$flights = Flight::where('date', '<', $now);
+        $this->info('There are ' . $flights->count() . ' past flights.');
 	}
 }
