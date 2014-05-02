@@ -34,7 +34,7 @@ class Checkin extends Eloquent
 
         $reservation = $flight['relations']['reservation']['attributes'];
 
-        $request = curl_init('https://www.southwest.com/flight/retrieveCheckinDoc.html');
+        $request = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
         curl_setopt_array($request, array(
             CURLOPT_COOKIESESSION => true,
             CURLOPT_FOLLOWLOCATION => true,
