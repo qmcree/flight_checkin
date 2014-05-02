@@ -40,8 +40,7 @@ class CheckinCommand extends Command {
         $upcomingFlights = Flight::upcoming();
 
         //debug
-        $queries = DB::getQueryLog();
-        echo end($queries);
+        echo DB::getQueryLog();
         exit;
 
         $this->info('There are ' . $upcomingFlights->count() . ' flights within the next 24 hours.');
