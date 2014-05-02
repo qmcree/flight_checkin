@@ -10,7 +10,7 @@ class Flight extends Eloquent
         $utc = new DateTimeZone('UTC');
         $format = 'Y-m-d H:i:s';
         $now = new DateTime('now', $utc);
-        $tomorrow = new DateTime('now + 1 day', $utc);
+        $tomorrow = $now->modify('+1 day');
 
         return Flight::where('date', '>', $now->format($format))
             ->where('date', '<', $tomorrow->format($format));
