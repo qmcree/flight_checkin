@@ -26,7 +26,7 @@ class Flight extends Eloquent
      */
     public function airline()
     {
-        return $this->hasOne('Airline');
+        return $this->hasOne('Airline', 'id', 'airline_id');
     }
 
     /**
@@ -35,7 +35,7 @@ class Flight extends Eloquent
      */
     public function airport()
     {
-        return $this->hasOne('Airport');
+        return $this->hasOne('Airport', 'id', 'airport_id');
     }
 
     /**
