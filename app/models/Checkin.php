@@ -53,7 +53,7 @@ class Checkin extends Eloquent
             ),
         ));
         //return curl_exec($request);
-        return $reservation;
+        return var_export($reservation, TRUE);
 
         // CURLOPT_COOKIE	 The contents of the "Cookie: " header to be used in the HTTP request. Note that multiple cookies are separated with a semicolon followed by a space (e.g., "fruit=apple; colour=red")
     }
