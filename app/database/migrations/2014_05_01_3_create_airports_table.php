@@ -15,7 +15,7 @@ class CreateAirportsTable extends Migration {
 		Schema::create('airports', function($table) {
             $table->increments('id');
             $table->string('abbreviation', 3);
-            $table->string('name', 20);
+            $table->string('name', 50);
             $table->integer('timezone_id')->unsigned();
         });
 
