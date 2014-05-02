@@ -20,6 +20,6 @@ class Checkin extends Eloquent
      */
     public static function attempt($flight)
     {
-        return 'Attempting to checkin flight ID ' . $flight['attributes']['id'] . ' with reservation ID ';
+        return 'Attempting to checkin flight ID ' . $flight['attributes']['id'] . ' with reservation ID ' . $flight['relations']['reservation']['attributes']['id'];
     }
 } 
