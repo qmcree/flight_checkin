@@ -17,7 +17,6 @@ class CreateFlightsTable extends Migration {
             $table->dateTime('date');
             $table->integer('airline_id')->unsigned();
             $table->integer('airport_id')->unsigned();
-            $table->timestamps();
         });
 
         Schema::table('flights', function($table) {
