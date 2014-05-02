@@ -37,7 +37,7 @@ class CheckinCommand extends Command {
 	 */
 	public function fire()
 	{
-        $upcomingFlights = Flight::upcoming();
+        $upcomingFlights = Flight::upcoming()->get();
 
         //debug
         var_dump(DB::getQueryLog());
