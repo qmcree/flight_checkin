@@ -106,6 +106,8 @@ class DatabaseSeeder extends Seeder {
             'checked_in' => 1,
             'attempts' => 1,
         ));
+
+        $this->command->info('All tables seeded!');
 	}
 
 }
