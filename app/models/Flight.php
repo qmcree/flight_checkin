@@ -9,14 +9,14 @@ class Flight extends Eloquent
      * Defines query scope that finds flights within the next 24 hours.
      * @return mixed
      */
-    public function scopeUpcoming()
+    public function scopeUpcoming($query)
     {
         $utc = new DateTimeZone('UTC');
         $format = 'Y-m-d H:i:s';
         $now = new DateTime('now', $utc);
         $tomorrow = new DateTime('now + 1 day', $utc);
 
-        return Flight::where('date', '>', $now->format($format))
+        return $query->where('date', '>', $now->format($format))
             ->where('date', '<', $tomorrow->format($format));
     }
 
