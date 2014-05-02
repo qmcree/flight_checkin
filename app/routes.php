@@ -23,3 +23,9 @@ Route::post('reservation/new', 'ReservationController@create');
 Route::get('reservation/{id}/edit', 'ReservationController@showEditForm');
 Route::post('reservation/{id}/edit', 'ReservationController@edit');
 Route::post('reservation/{id}/delete', 'ReservationController@delete');
+
+// @todo remove.
+Route::get('debug', function() {
+    $flight = Flight::with('airline', 'airport.timezone', 'reservation')->upcoming()->get();
+    var_dump($flight);
+});
