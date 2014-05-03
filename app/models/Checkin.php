@@ -28,7 +28,7 @@ class Checkin extends Eloquent
         $reservation = $flight['relations']['reservation']['attributes'];
 
         $checkin = self::find($reservation['id']);
-        $checkin['attempts']++;
+        $checkin['attempts'] = $checkin['attempts'] + 1;
         $checkin->save();
         exit;
 
