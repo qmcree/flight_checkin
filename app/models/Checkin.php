@@ -7,7 +7,7 @@ class Checkin extends Eloquent
 
     const AIRLINE_SOUTHWEST = 'Southwest Airlines';
     const AIRLINE_SOUTHWEST_SESSION_COOKIE = 'JSESSIONID';
-    const AIRLINE_SOUTHWEST_ERROR_NEEDLE = 'id="errorsMSNS"';
+    const AIRLINE_SOUTHWEST_ERROR_NEEDLE = 'id="errors"';
 
     /**
      * Defines inverse reservation relation.
@@ -25,8 +25,9 @@ class Checkin extends Eloquent
      */
     public static function attempt($flight)
     {
-        $reservation = $flight['relations']['reservation']['attributes'];
+        var_dump($flight);
 
+        $reservation = $flight['relations']['reservation']['attributes'];
         $request = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
         curl_setopt_array($request, array(
             CURLOPT_COOKIESESSION => true,
