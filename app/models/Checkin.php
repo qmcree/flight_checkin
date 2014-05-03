@@ -28,8 +28,10 @@ class Checkin extends Eloquent
         $reservation = $flight['relations']['reservation']['attributes'];
 
         $checkin = self::find($reservation['id']);
-        var_dump($checkin['attempts']++);
-        //var_dump($checkin['attempts']);
+        var_dump($checkin['attempts']);
+        $checkin['attempts'] = $checkin['attempts'] + 1;
+        $checkin->save();
+        var_dump($checkin['attempts']);
         exit;
 
         $request = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
