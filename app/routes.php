@@ -16,7 +16,7 @@ Route::pattern('id', '[0-9]+');
 
 Route::get('/', 'ReservationController@showCreateForm');
 
-Route::get('reservation/all', 'ReservationController@showList');
+Route::get('reservation/search/{confirmationNumber}', 'ReservationController@search'); // @todo redirect to reservation/{id} when found.
 Route::get('reservation/{id}', 'ReservationController@showDetail');
 Route::get('reservation/new', 'ReservationController@showCreateForm');
 Route::post('reservation/new', 'ReservationController@create');

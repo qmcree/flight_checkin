@@ -2,11 +2,6 @@
 
 class ReservationController extends BaseController
 {
-    public function showList()
-    {
-
-    }
-
     public function showDetail($id)
     {
 

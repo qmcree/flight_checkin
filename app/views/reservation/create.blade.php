@@ -1,4 +1,4 @@
-<form method="post">
+<form method="post" action="{{ action('ReservationController@create') }}">
     <div class="form-group">
         <label for="date">Date</label>
         <input type="date" name="date" id="date" />
@@ -22,6 +22,7 @@
     <div class="form-group">
         <label for="airport">Departure Airport</label>
         <select name="airport_id" id="airport">
+            <option value="">Select...</option>
             @foreach ($airports as $airport)
             <option value="{{ $airport['attributes']['id'] }}">{{{ $airport['attributes']['abbreviation'] }}} - {{{ $airport['attributes']['name'] }}}</option>
             @endforeach
