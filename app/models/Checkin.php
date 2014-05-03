@@ -22,16 +22,6 @@ class Checkin extends Eloquent
      */
     public static function attempt($flight)
     {
-        //return 'Attempting to checkin flight ID ' . $flight['attributes']['id'] . ' with reservation ID ' . $flight['relations']['reservation']['attributes']['id'];
-
-        /*$airline = $flight['relations']['airline']['attributes']['name'];
-
-        switch ($airline) {
-            case (self::AIRLINE_SOUTHWEST):
-                $url =
-                break;
-        }*/
-
         $reservation = $flight['relations']['reservation']['attributes'];
 
         $request = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
@@ -48,9 +38,29 @@ class Checkin extends Eloquent
             CURLOPT_POSTFIELDS => sprintf('confirmationNumber=%s&firstName=%s&lastName=%s&submitButton=Check+In', $reservation['confirmation_number'],
                 $reservation['first_name'], $reservation['last_name']),
         ));
-        return curl_exec($request);
+        $response1 = curl_exec($request);
+
+        curl_close($request);
+
+        return self::getCookies($response1);
 
         // @see http://stackoverflow.com/a/7179233
         // CURLOPT_COOKIE	 The contents of the "Cookie: " header to be used in the HTTP request. Note that multiple cookies are separated with a semicolon followed by a space (e.g., "fruit=apple; colour=red")
+    }
+
+    protected static function getCookies($response)
+    {
+        $headers = http_parse_cookie($response);
+        $cookies = array();
+
+        foreach ($headers as $headerName => $headerValue) {
+            if (strtolower($headerName) === 'set-cookie') {
+                foreach ($headerValue as $cookieName => $cookieValue) {
+                    array_push($cookies, http_parse_cookie($cookieValue));
+                }
+            }
+        }
+
+        return $cookies;
     }
 } 

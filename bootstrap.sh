@@ -8,7 +8,7 @@ debconf-set-selections <<< 'mysql-server mysql-server/root_password_again passwo
 apt-get update
 apt-get install -y apache2 mysql-server php5 php-pear php5-suhosin php5-mysql php5-mcrypt php5-json vim
 a2enmod rewrite
-echo 'suhosin.executor.include.whitelist=phar' >> /etc/php5/cli/php.ini
+echo "suhosin.executor.include.whitelist=phar" >> /etc/php5/cli/php.ini
 rm -rf /var/www/
 mkdir /var/www/
 service apache2 restart
@@ -36,3 +36,10 @@ echo "<VirtualHost *:80>
 </VirtualHost>" > /etc/apache2/sites-available/${DEV_PROJECT_NAME}
 a2ensite ${DEV_PROJECT_NAME}
 service apache2 reload
+
+# Install PECL HTTP.
+sudo apt-get install libcurl3 php5-dev libcurl4-gnutls-dev libmagic-dev libpcre3-dev
+sudo pecl install http://pecl.php.net/get/pecl_http-1.7.6.tgz
+echo "extension=http.so" >> /etc/php5/cli/php.ini
+echo "extension=http.so" >> /etc/php5/apache2/php.ini
+service apache2 restart
