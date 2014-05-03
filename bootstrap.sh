@@ -38,7 +38,7 @@ a2ensite ${DEV_PROJECT_NAME}
 service apache2 reload
 
 # Install PECL HTTP.
-sudo apt-get install libcurl3 php5-dev libcurl4-gnutls-dev libmagic-dev libpcre3-dev
+sudo apt-get install -y build-essential libcurl3 php5-dev libcurl4-gnutls-dev libmagic-dev libpcre3-dev
 sudo pecl install http://pecl.php.net/get/pecl_http-1.7.6.tgz
 echo "extension=http.so" >> /etc/php5/cli/php.ini
 echo "extension=http.so" >> /etc/php5/apache2/php.ini
