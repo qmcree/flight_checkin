@@ -16,7 +16,7 @@ class ReservationController extends BaseController
     {
         $airports = Airport::all();
 
-
+        return View::make('reservation.create')->with('airports', $airports);
     }
 
     public function create()
