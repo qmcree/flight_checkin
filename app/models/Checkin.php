@@ -25,6 +25,8 @@ class Checkin extends Eloquent
      */
     public static function attempt($flight)
     {
+        $flight['relations']['reservation']['checkin']->attempts++;
+        $flight->save();
         var_dump($flight['relations']['reservation']['checkin']->attempts);
 
         $reservation = $flight['relations']['reservation']['attributes'];
