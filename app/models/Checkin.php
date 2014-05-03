@@ -7,7 +7,7 @@ class Checkin extends Eloquent
 
     const AIRLINE_SOUTHWEST = 'Southwest Airlines';
     const AIRLINE_SOUTHWEST_SESSION_COOKIE = 'JSESSIONID';
-    const AIRLINE_SOUTHWEST_ERROR_NEEDLE = 'id="errors"';
+    const AIRLINE_SOUTHWEST_ERROR_NEEDLE = 'id="errorsMSNS"';
 
     /**
      * Defines inverse reservation relation.
