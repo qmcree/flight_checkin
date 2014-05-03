@@ -16,16 +16,10 @@ class ReservationController extends BaseController
 
     public function create()
     {
-        $airport = Airport::with('timezone')->find($_POST['airport_id']);
-        $timezone = $airport['relations']['timezone']['attributes']['name'];
-
-        $date = new DateTime($_POST['date'], new DateTimeZone($timezone));
-        $utcDate = gmdate('Y-m-d H:i:s', $date->getTimestamp());
-        echo $utcDate;
-        exit;
+        $utcDate = self::getUtcDate($_POST['airport_id'], $_POST['date']);
 
         $flight = Flight::create(array(
-            'date' => $_POST['date'],
+            'date' => $utcDate,
             'airline_id' => 1, // always southwest.
             'airport_id' => $_POST['airport_id'],
         ));
@@ -36,6 +30,22 @@ class ReservationController extends BaseController
             'first_name' => $_POST['first_name'],
             'last_name' => $_POST['last_name'],
         ));
+    }
+
+    /**
+     * Converts date to UTC based on airport's timezone.
+     * @param integer $airportId
+     * @param string $date
+     * @return string
+     */
+    protected static function getUtcDate($airportId, $date)
+    {
+        $airport = Airport::with('timezone')->find($airportId);
+
+        $timezone = new DateTimeZone($airport['relations']['timezone']['attributes']['name']);
+        $dateTime = new DateTime($date, $timezone);
+
+        return gmdate('Y-m-d H:i:s', $dateTime->getTimestamp());
     }
 
     public function showEditForm($id)
