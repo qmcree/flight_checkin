@@ -6,6 +6,7 @@ class Checkin extends Eloquent
     protected $guarded = array('checked_in', 'attempts');
 
     const AIRLINE_SOUTHWEST = 'Southwest Airlines';
+    const AIRLINE_SOUTHWEST_SESSION_COOKIE = 'JSESSIONID';
 
     /**
      * Defines inverse reservation relation.
@@ -42,25 +43,35 @@ class Checkin extends Eloquent
 
         curl_close($request);
 
-        return self::getCookies($response1);
+        return self::getSessionId($response1);
 
         // @see http://stackoverflow.com/a/7179233
         // CURLOPT_COOKIE	 The contents of the "Cookie: " header to be used in the HTTP request. Note that multiple cookies are separated with a semicolon followed by a space (e.g., "fruit=apple; colour=red")
     }
 
-    protected static function getCookies($response)
+    /**
+     * Parses headers to find session cookie ID.
+     * @param string $response
+     * @return string|bool false if session cookie not found.
+     */
+    protected static function getSessionId($response)
     {
         $headers = http_parse_headers($response);
         $cookies = array();
 
         foreach ($headers as $headerName => $headerValue) {
             if (strtolower($headerName) === 'set-cookie') {
-                foreach ($headerValue as $cookieName => $cookieValue) {
+                foreach ($headerValue as $cookieValue) {
                     array_push($cookies, http_parse_cookie($cookieValue));
                 }
             }
         }
 
-        return $cookies;
+        foreach ($cookies as $cookie) {
+            if ($sessionId = isset($cookie['cookies'][self::AIRLINE_SOUTHWEST_SESSION_COOKIE]))
+                return $sessionId;
+        }
+
+        return false;
     }
 } 
