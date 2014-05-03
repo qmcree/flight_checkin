@@ -42,7 +42,7 @@ class Checkin extends Eloquent
 
         curl_close($request);
 
-        return self::getCookies($response1);
+        var_dump(self::getCookies($response1));
 
         // @see http://stackoverflow.com/a/7179233
         // CURLOPT_COOKIE	 The contents of the "Cookie: " header to be used in the HTTP request. Note that multiple cookies are separated with a semicolon followed by a space (e.g., "fruit=apple; colour=red")
