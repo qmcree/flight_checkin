@@ -68,8 +68,8 @@ class Checkin extends Eloquent
         }
 
         foreach ($cookies as $cookie) {
-            if ($sessionId = isset($cookie->cookies[self::AIRLINE_SOUTHWEST_SESSION_COOKIE]))
-                return $sessionId;
+            if (isset($cookie->cookies[self::AIRLINE_SOUTHWEST_SESSION_COOKIE]))
+                return $cookie->cookies[self::AIRLINE_SOUTHWEST_SESSION_COOKIE];
         }
 
         return false;
