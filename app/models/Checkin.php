@@ -56,7 +56,7 @@ class Checkin extends Eloquent
         foreach ($headers as $headerName => $headerValue) {
             if (strtolower($headerName) === 'set-cookie') {
                 foreach ($headerValue as $cookieName => $cookieValue) {
-                    array_push($cookies, http_parse_cookie($cookieValue));
+                    array_push($cookies, $cookieValue);
                 }
             }
         }
