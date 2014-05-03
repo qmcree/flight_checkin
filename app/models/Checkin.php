@@ -3,7 +3,7 @@
 class Checkin extends Eloquent
 {
     public $timestamps = false;
-    protected $guarded = array('checked_in', 'attempts');
+    protected $primaryKey = 'reservation_id', $guarded = array('checked_in', 'attempts');
 
     const AIRLINE_SOUTHWEST = 'Southwest Airlines';
     const AIRLINE_SOUTHWEST_SESSION_COOKIE = 'JSESSIONID';
@@ -25,11 +25,13 @@ class Checkin extends Eloquent
      */
     public static function attempt($flight)
     {
-        $flight['relations']['reservation']['checkin']->attempts++;
-        $flight['relations']['reservation']['checkin']->save();
-        var_dump($flight['relations']['reservation']['checkin']->attempts);
-
         $reservation = $flight['relations']['reservation']['attributes'];
+
+        $checkin = self::find($reservation->id);
+        var_dump($checkin->attempts++);
+        var_dump($checkin->attempts);
+        exit;
+
         $request = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
         curl_setopt_array($request, array(
             CURLOPT_COOKIESESSION => true,
