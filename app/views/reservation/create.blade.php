@@ -1,7 +1,7 @@
 <form method="post" action="{{ action('ReservationController@create') }}">
     <div class="form-group">
         <label for="date">Date</label>
-        <input type="date" name="date" id="date" />
+        <input type="datetime" name="date" id="date" />
     </div>
     <div class="form-group">
         <label for="confirmation-number">Conf. #</label>
