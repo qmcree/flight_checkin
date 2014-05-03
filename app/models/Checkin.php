@@ -50,13 +50,13 @@ class Checkin extends Eloquent
 
     protected static function getCookies($response)
     {
-        $headers = http_parse_cookie($response);
+        $headers = http_parse_headers($response);
         $cookies = array();
 
         foreach ($headers as $headerName => $headerValue) {
             if (strtolower($headerName) === 'set-cookie') {
                 foreach ($headerValue as $cookieName => $cookieValue) {
-                    array_push($cookies, $cookieValue);
+                    array_push($cookies, http_parse_cookie($cookieValue));
                 }
             }
         }
