@@ -7,6 +7,7 @@ class Checkin extends Eloquent
 
     const AIRLINE_SOUTHWEST = 'Southwest Airlines';
     const AIRLINE_SOUTHWEST_SESSION_COOKIE = 'JSESSIONID';
+    const AIRLINE_SOUTHWEST_ERROR_NEEDLE = 'id="errors"';
 
     /**
      * Defines inverse reservation relation.
@@ -20,6 +21,7 @@ class Checkin extends Eloquent
     /**
      * Attempt to checkin.
      * @param Flight
+     * @return bool true if checkin was successful, false if not.
      */
     public static function attempt($flight)
     {
@@ -41,11 +43,16 @@ class Checkin extends Eloquent
         ));
         $response1 = curl_exec($request);
 
-        curl_close($request);
+        // check if error occurred.
+        if (strpos($response1, self::AIRLINE_SOUTHWEST_ERROR_NEEDLE) !== false) {
+            curl_close($request);
+            return false;
+        } else {
+            $sessionId = self::getSessionId($response1);
+            curl_close($request);
+            return true;
+        }
 
-        return self::getSessionId($response1);
-
-        // @see http://stackoverflow.com/a/7179233
         // CURLOPT_COOKIE	 The contents of the "Cookie: " header to be used in the HTTP request. Note that multiple cookies are separated with a semicolon followed by a space (e.g., "fruit=apple; colour=red")
     }
 
