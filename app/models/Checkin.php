@@ -25,7 +25,7 @@ class Checkin extends Eloquent
      */
     public static function attempt($flight)
     {
-        var_dump($flight->relations->reservation);
+        var_dump($flight['relations']->reservation);
 
         $reservation = $flight['relations']['reservation']['attributes'];
         $request = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
