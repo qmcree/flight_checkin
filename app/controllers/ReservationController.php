@@ -14,6 +14,8 @@ class ReservationController extends BaseController
 
     public function showCreateForm()
     {
+        $airports = Airport::all();
+
 
     }
 

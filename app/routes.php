@@ -14,7 +14,7 @@
 Route::pattern('id', '[0-9]+');
 
 
-Route::get('/', 'DashboardController@show');
+Route::get('/', 'ReservationController@showCreateForm');
 
 Route::get('reservation/all', 'ReservationController@showList');
 Route::get('reservation/{id}', 'ReservationController@showDetail');
