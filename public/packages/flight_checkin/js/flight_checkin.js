@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-    jQuery('input.datetime').datetimepicker({
+    jQuery('div.datetime').datetimepicker({
         format: 'yyyy-mm-dd hh:ii:ss'
     });
 });

@@ -7,8 +7,8 @@
         <div class="form-group">
             <label for="date">Date</label>
 
-            <div class="input-group">
-                <input type="text" class="form-control datetime" name="date" id="date" />
+            <div class="input-group datetime">
+                <input type="text" class="form-control" name="date" id="date" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
         </div>
