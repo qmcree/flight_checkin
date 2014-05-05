@@ -47,7 +47,7 @@ Route::filter('auth.basic', function()
 Route::filter('auth.reservation', function() {
     // make sure session matches the input ID.
     if (Session::get('reservation_id') != Route::input('id'))
-        return Redirect::to('lookup');
+        return Redirect::to('reservation/lookup');
 });
 
 /*
