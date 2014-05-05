@@ -16,6 +16,7 @@
             <label for="last-name">Last Name</label>
             <input type="text" class="form-control" name="last_name" id="last-name" />
         </div>
-        <button type="submit" class="btn btn-default">Lookup</button>
+        <button type="submit" class="btn btn-primary">Lookup</button>
+        <button type="reset" class="btn btn-default">Clear</button>
     </form>
 @stop

@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="/packages/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/packages/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" type="text/css" href="/packages/flight_checkin/css/flight_checkin.css" />
 
     <!-- <script src="//modernizr.com/downloads/modernizr-latest.js"></script> --> <!-- @todo Build production version. -->
@@ -68,6 +69,7 @@
 <script src="/packages/jquery/js/jquery.min.js"></script>
 <script src="/packages/underscore/js/underscore-min.js"></script>
 <script src="/packages/bootstrap/js/bootstrap.min.js"></script>
+<script src="/packages/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
 <script src="/packages/flight_checkin/js/flight_checkin.js"></script>
 </body>
 </html>

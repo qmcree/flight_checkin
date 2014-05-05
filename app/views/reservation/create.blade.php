@@ -6,7 +6,11 @@
     <form method="post" action="{{ action('ReservationController@create') }}">
         <div class="form-group">
             <label for="date">Date</label>
-            <input type="datetime" class="form-control" name="date" id="date" />
+
+            <div class="input-group">
+                <input type="text" class="form-control datetime" name="date" id="date" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
         </div>
         <div class="form-group">
             <label for="confirmation-number">Confirmation Number</label>
@@ -26,7 +30,7 @@
             <p class="help-block">We'll shoot you an email right after we check you in.</p>
         </div>
         <div class="form-group">
-            <label for="timezone">Departure Airport Timezone</label>
+            <label for="timezone">Airport Timezone</label>
             <select class="form-control" name="timezone_id" id="timezone">
                 <option value="">Select...</option>
                 @foreach ($timezones as $timezone)
@@ -37,6 +41,8 @@
                 <a href="/packages/flight_checkin/images/timezone_map.gif" target="_blank">I dunno.</a></p>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
+        <button type="reset" class="btn btn-default">Clear</button>
     </form>
+
     <p><small><a href="{{ action('ReservationController@lookup') }}">Trying to change an existing reservation?</a></small></p>
 @stop
