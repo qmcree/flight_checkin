@@ -1,12 +1,12 @@
 @if (!is_null($_success))
 <div class="alert alert-success">
-    {{ $alert }}
+    {{ $_success }}
 </div>
 @endif
 
 @if (!is_null($_danger))
 <div class="alert alert-danger">
-    {{ $alert }}
+    {{ $_danger }}
 </div>
 @endif
 
