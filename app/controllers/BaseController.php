@@ -50,11 +50,11 @@ class BaseController extends Controller {
     }
 
     /**
-     * Formats messages retrieved from Validator instance.
+     * Renders messages into HTML.
      * @param Validator $messages
      * @return string
      */
-    public static function formatMessages($messages)
+    public static function renderMessages($messages)
     {
         $html = '<ul>';
         foreach ($messages->all('<li>:message</li>') as $message) {

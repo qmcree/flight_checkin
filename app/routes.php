@@ -16,10 +16,10 @@ Route::pattern('id', '[0-9]+');
 
 Route::get('/', 'ReservationController@showCreateForm');
 
-Route::get('reservation/lookup', 'ReservationController@lookup');
-Route::get('reservation/{id}', 'ReservationController@showDetail'); // @todo filter for valid session.
 Route::get('reservation/new', 'ReservationController@showCreateForm');
 Route::post('reservation/new', 'ReservationController@create');
-Route::get('reservation/{id}/edit', 'ReservationController@showEditForm'); // @todo filter for valid session.
-Route::post('reservation/{id}/edit', 'ReservationController@edit'); // @todo filter for valid session.
-Route::post('reservation/{id}/delete', 'ReservationController@delete'); // @todo filter for valid session.
+Route::get('reservation/lookup', 'ReservationController@lookup');
+Route::get('reservation/{id}', array('before' => 'auth.reservation', 'uses' => 'ReservationController@showDetail'));
+Route::get('reservation/{id}/edit', array('before' => 'auth.reservation', 'uses' => 'ReservationController@showEditForm'));
+Route::post('reservation/{id}/edit', array('before' => 'auth.reservation', 'uses' => 'ReservationController@edit'));
+Route::post('reservation/{id}/delete', array('before' => 'auth.reservation', 'uses' => 'ReservationController@delete'));

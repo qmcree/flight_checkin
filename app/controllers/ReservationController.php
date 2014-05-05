@@ -50,7 +50,7 @@ class ReservationController extends BaseController
                     return $this->showLookupForm();
                 }
             } else {
-                $messageHtml = self::formatMessages($validator->messages());
+                $messageHtml = self::renderMessages($validator->messages());
                 $this->setAlertDanger($messageHtml);
 
                 return $this->showLookupForm();
@@ -111,7 +111,7 @@ class ReservationController extends BaseController
 
             $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
         } else {
-            $messageHtml = self::formatMessages($validator->messages());
+            $messageHtml = self::renderMessages($validator->messages());
             $this->setAlertDanger($messageHtml);
         }
 
