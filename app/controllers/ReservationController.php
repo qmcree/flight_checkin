@@ -22,7 +22,7 @@ class ReservationController extends BaseController
         if (empty($_GET['confirmation_number']) || empty($_GET['first_name']) || empty($_GET['last_name'])) {
             return $this->showLookupForm();
         } else {
-            $reservation = Reservation::where('confirmation_number', '=', $_GET['confirmation_number']);
+            $reservation = Reservation::where('confirmation_number', '=', $_GET['confirmation_number'])->first();
 
             if (($reservation->count() > 0) && ($reservation->first_name === $_GET['first_name']) && ($reservation->last_name === $_GET['last_name'])) {
                 $this->setAlertSuccess('Yay found that one!');
