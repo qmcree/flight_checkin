@@ -5,7 +5,7 @@ class ReservationController extends BaseController
     const ALERT_DANGER_LOOKUP = "Whoops! I can't find a reservation matching those details.";
     const ALERT_SUCCESS_CREATE = "<strong>Great success!</strong> We will automatically check you in at the earliest possible time so you can board early!";
 
-    public function showLookupForm()
+    protected function showLookupForm()
     {
         return View::make('reservation.lookup')->with(array(
             '_success' => $this->getAlertSuccess(),
