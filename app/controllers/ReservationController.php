@@ -7,14 +7,10 @@ class ReservationController extends BaseController
 
     public function showLookupForm()
     {
-        /**
         return View::make('reservation.lookup')->with(array(
             '_success' => $this->getAlertSuccess(),
             '_danger' => $this->getAlertDanger(),
         ));
-         */
-
-        return 'Oooh bay bay.';
     }
 
     /**
@@ -23,6 +19,7 @@ class ReservationController extends BaseController
      */
     public function lookup()
     {
+        /*
         if (empty($_GET['confirmation_number']) || empty($_GET['first_name']) || empty($_GET['last_name'])) {
             $this->showLookupForm();
         } else {
@@ -36,6 +33,8 @@ class ReservationController extends BaseController
                 $this->showLookupForm();
             }
         }
+        */
+        return 'Mmmmmkay.';
     }
 
     public function showDetail($id)
