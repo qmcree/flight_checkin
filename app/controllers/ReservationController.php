@@ -94,7 +94,8 @@ class ReservationController extends BaseController
 
             $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
         } else {
-            $this->setAlertDanger($validator->messages());
+            $messages = self::formatMessages($validator->messages());
+            $this->setAlertDanger($messages);
         }
 
         return $this->showCreateForm();

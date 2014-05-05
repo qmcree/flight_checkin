@@ -49,6 +49,21 @@ class BaseController extends Controller {
         return $this->alert['danger'];
     }
 
+    /**
+     * Formats messages retrieved from Validator instance.
+     * @param Validator $messages
+     * @return string
+     */
+    public static function formatMessages($messages)
+    {
+        $formatted = '';
+        foreach ($messages->all('<li>:message</li>') as $message) {
+            $formatted .= $message;
+        }
+
+        return $formatted;
+    }
+
 	/**
 	 * Setup the layout used by the controller.
 	 *
