@@ -2,19 +2,50 @@
 
 class ReservationController extends BaseController
 {
-    const ALERT_SUCCESS_CREATE = '<strong>Great success!</strong> We will automatically check you in at the earliest possible time, so you get a great seat!';
+    const ALERT_DANGER_LOOKUP = "Whoops! I can't find a reservation matching those details.";
+    const ALERT_SUCCESS_CREATE = "<strong>Great success!</strong> We will automatically check you in at the earliest possible time so you can board early!";
+
+    public function showLookupForm()
+    {
+        return View::make('reservation.lookup')->with(array(
+            '_success' => $this->getAlertSuccess(),
+            '_danger' => $this->getAlertDanger(),
+        ));
+    }
+
+    /**
+     * Finds reservation_id based on parameters, sets session, and then redirects to show details.
+     * GET parameters should contain 'confirmation_number', 'first_name', 'last_name'.
+     */
+    public function lookup()
+    {
+        if (empty($_GET['confirmation_number']) || empty($_GET['first_name']) || empty($_GET['last_name'])) {
+            $this->showLookupForm();
+        } else {
+            $reservation = Reservation::where('confirmation_number', '=', $_GET['confirmation_number']);
+
+            if (($reservation->count() > 0) && ($reservation->first_name === $_GET['first_name']) && ($reservation->last_name === $_GET['last_name'])) {
+                $this->setAlertSuccess('Yay found that one!');
+                $this->showLookupForm();
+            } else {
+                $this->setAlertDanger(self::ALERT_DANGER_LOOKUP);
+                $this->showLookupForm();
+            }
+        }
+    }
 
     public function showDetail($id)
     {
 
     }
 
-    public function showCreateForm($alert = null)
+    public function showCreateForm()
     {
         $timezones = Timezone::all();
 
         return View::make('reservation.create')->with(array(
-            'alert' => $alert,
+            '_success' => $this->getAlertSuccess(),
+            '_danger' => $this->getAlertDanger(),
             'timezones' => $timezones,
         ));
     }
@@ -35,7 +66,8 @@ class ReservationController extends BaseController
             'last_name' => $_POST['last_name'],
         ));
 
-        return $this->showCreateForm(self::ALERT_SUCCESS_CREATE);
+        $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
+        return $this->showCreateForm();
     }
 
     /**

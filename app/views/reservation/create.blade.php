@@ -1,6 +1,12 @@
-@if (!is_null($alert))
+@if (!is_null($_success))
 <div class="alert alert-success">
-    {{{ $alert }}}
+    {{ $alert }}
+</div>
+@endif
+
+@if (!is_null($_danger))
+<div class="alert alert-danger">
+    {{ $alert }}
 </div>
 @endif
 
@@ -10,7 +16,7 @@
         <input type="datetime" name="date" id="date" />
     </div>
     <div class="form-group">
-        <label for="confirmation-number">Conf. #</label>
+        <label for="confirmation-number">Confirmation Number</label>
         <input type="text" name="confirmation_number" id="confirmation-number" />
     </div>
     <div class="form-group">
