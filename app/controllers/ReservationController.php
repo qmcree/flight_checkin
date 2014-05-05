@@ -20,17 +20,16 @@ class ReservationController extends BaseController
     public function lookup()
     {
         if (empty($_GET['confirmation_number']) || empty($_GET['first_name']) || empty($_GET['last_name'])) {
-            //$this->showLookupForm();
-            return 'You getting here?';
+            return $this->showLookupForm();
         } else {
             $reservation = Reservation::where('confirmation_number', '=', $_GET['confirmation_number']);
 
             if (($reservation->count() > 0) && ($reservation->first_name === $_GET['first_name']) && ($reservation->last_name === $_GET['last_name'])) {
                 $this->setAlertSuccess('Yay found that one!');
-                $this->showLookupForm();
+                return $this->showLookupForm();
             } else {
                 $this->setAlertDanger(self::ALERT_DANGER_LOOKUP);
-                $this->showLookupForm();
+                return $this->showLookupForm();
             }
         }
     }
