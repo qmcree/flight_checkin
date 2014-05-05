@@ -1,14 +1,14 @@
 .alert:before {
-    font-weight: bold;
+    font-weight: 500;
     font-size: 1.5em;
 }
 
 .alert.alert-success:before {
     content: "Great success!";
-    color: rgba(60, 118, 61, 0.5);
+    color: rgba(60, 118, 61, 0.4);
 }
 
 .alert.alert-danger:before {
-    content: "Houston, we've got a problem.";
-    color: rgba(169, 68, 66, 0.5);
+    content: "Oh, snap!";
+    color: rgba(169, 68, 66, 0.4);
 }
