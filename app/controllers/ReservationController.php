@@ -61,21 +61,42 @@ class ReservationController extends BaseController
 
     public function create()
     {
-        $utcDate = self::getUtcDate($_POST['timezone_id'], $_POST['date']);
-
-        $flight = Flight::create(array(
-            'date' => $utcDate,
-            'timezone_id' => $_POST['timezone_id'],
-        ));
-
-        Reservation::create(array(
-            'flight_id' => $flight->id,
+        $validator = Validator::make(array(
+            'date' => $_POST['date'],
             'confirmation_number' => $_POST['confirmation_number'],
             'first_name' => $_POST['first_name'],
             'last_name' => $_POST['last_name'],
+            'email' => $_POST['email'],
+            'timezone_id' => $_POST['timezone_id'],
+        ), array(
+            'date' => array('required', 'date_format:Y-m-d H:i:s'),
+            'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
+            'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
+            'last_name' => array('required', 'alpha', 'min:2', 'max:20'),
+            'email' => array('required', 'email', 'max:30'),
+            'timezone_id' => array('required', 'numeric', 'max:5'),
         ));
 
-        $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
+        if ($validator->passes()) {
+            $utcDate = self::getUtcDate($_POST['timezone_id'], $_POST['date']);
+
+            $flight = Flight::create(array(
+                'date' => $utcDate,
+                'timezone_id' => $_POST['timezone_id'],
+            ));
+
+            Reservation::create(array(
+                'flight_id' => $flight->id,
+                'confirmation_number' => $_POST['confirmation_number'],
+                'first_name' => $_POST['first_name'],
+                'last_name' => $_POST['last_name'],
+            ));
+
+            $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
+        } else {
+            $this->setAlertDanger($validator->messages());
+        }
+
         return $this->showCreateForm();
     }
 
