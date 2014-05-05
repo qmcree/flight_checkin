@@ -31,9 +31,9 @@ class ReservationController extends BaseController
             return $this->showLookupForm();
         } else {
             $validator = Validator::make(array(
-                'confirmation_number' => $_POST['confirmation_number'],
-                'first_name' => $_POST['first_name'],
-                'last_name' => $_POST['last_name'],
+                'confirmation_number' => $_GET['confirmation_number'],
+                'first_name' => $_GET['first_name'],
+                'last_name' => $_GET['last_name'],
             ), array(
                 'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
                 'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
