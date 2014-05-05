@@ -1,4 +1,4 @@
-@extends('layout.base')
+@extends('layout.master')
 
 @section('content')
     <form method="post" action="{{ action('ReservationController@create') }}">
