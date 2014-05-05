@@ -33,4 +33,5 @@
         </div>
         <input type="submit" name="submit" />
     </form>
+    <p><small><a href="{{ action('ReservationController@showLookupForm') }}">Trying to change an existing reservation?</a></small></p>
 @stop
