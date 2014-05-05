@@ -2,7 +2,6 @@
 
 class ReservationController extends BaseController
 {
-    const ALERT_SUCCESS_LOOKUP = "Found it! You can update or delete your reservation below.";
     const ALERT_DANGER_LOOKUP = "Whoops! I can't find a reservation matching those details.";
     const ALERT_SUCCESS_CREATE = "<strong>Great success!</strong> We will automatically check you in at the earliest possible time so you can board early!";
 
@@ -12,6 +11,14 @@ class ReservationController extends BaseController
             '_success' => $this->getAlertSuccess(),
             '_danger' => $this->getAlertDanger(),
         ));
+    }
+
+    /**
+     * Set session for reservation ID.
+     */
+    protected static function authenticate($id)
+    {
+        Session::put('reservation_id', $id);
     }
 
     /**
@@ -26,8 +33,9 @@ class ReservationController extends BaseController
             $reservation = Reservation::where('confirmation_number', '=', $_GET['confirmation_number'])->first();
 
             if (($reservation->count() > 0) && ($reservation->first_name === $_GET['first_name']) && ($reservation->last_name === $_GET['last_name'])) {
-                $this->getAlertSuccess(self::ALERT_SUCCESS_LOOKUP);
-                return $this->showDetail($reservation->id);
+                self::authenticate($reservation->id);
+
+                return Redirect::to('reservation/' . $reservation->id);
             } else {
                 $this->setAlertDanger(self::ALERT_DANGER_LOOKUP);
                 return $this->showLookupForm();
@@ -37,7 +45,7 @@ class ReservationController extends BaseController
 
     public function showDetail($id)
     {
-        return 'Woop. You be trying to get ID ' . $id;
+        return View::make('reservation.detail');
     }
 
     public function showCreateForm()
