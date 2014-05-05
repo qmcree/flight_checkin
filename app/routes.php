@@ -16,10 +16,7 @@ Route::pattern('id', '[0-9]+');
 
 Route::get('/', 'ReservationController@showCreateForm');
 
-//Route::get('reservation/lookup', 'ReservationController@lookup');
-Route::get('reservation/lookup', function() {
-    return 'Hellur!';
-});
+Route::get('reservation/lookup', 'ReservationController@lookup');
 Route::get('reservation/{id}', 'ReservationController@showDetail'); // @todo filter for valid session.
 Route::get('reservation/new', 'ReservationController@showCreateForm');
 Route::post('reservation/new', 'ReservationController@create');
