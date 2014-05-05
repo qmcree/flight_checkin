@@ -27,17 +27,34 @@ class ReservationController extends BaseController
      */
     public function lookup()
     {
-        if (empty($_GET['confirmation_number']) || empty($_GET['first_name']) || empty($_GET['last_name'])) {
+        if (!isset($_GET['confirmation_number'])) {
             return $this->showLookupForm();
         } else {
-            $reservation = Reservation::where('confirmation_number', '=', $_GET['confirmation_number'])->first();
+            $validator = Validator::make(array(
+                'confirmation_number' => $_POST['confirmation_number'],
+                'first_name' => $_POST['first_name'],
+                'last_name' => $_POST['last_name'],
+            ), array(
+                'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
+                'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
+                'last_name' => array('required', 'alpha', 'min:2', 'max:20'),
+            ));
 
-            if (($reservation->count() > 0) && ($reservation->first_name === $_GET['first_name']) && ($reservation->last_name === $_GET['last_name'])) {
-                self::authenticate($reservation->id);
+            if ($validator->passes()) {
+                $reservation = Reservation::where('confirmation_number', '=', $_GET['confirmation_number'])->first();
 
-                return Redirect::to('reservation/' . $reservation->id);
+                if (($reservation->count() > 0) && ($reservation->first_name === $_GET['first_name']) && ($reservation->last_name === $_GET['last_name'])) {
+                    self::authenticate($reservation->id);
+
+                    return Redirect::to('reservation/' . $reservation->id);
+                } else {
+                    $this->setAlertDanger(self::ALERT_DANGER_LOOKUP);
+                    return $this->showLookupForm();
+                }
             } else {
-                $this->setAlertDanger(self::ALERT_DANGER_LOOKUP);
+                $messageHtml = self::formatMessages($validator->messages());
+                $this->setAlertDanger($messageHtml);
+
                 return $this->showLookupForm();
             }
         }
@@ -94,8 +111,8 @@ class ReservationController extends BaseController
 
             $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
         } else {
-            $messages = self::formatMessages($validator->messages());
-            $this->setAlertDanger($messages);
+            $messageHtml = self::formatMessages($validator->messages());
+            $this->setAlertDanger($messageHtml);
         }
 
         return $this->showCreateForm();

@@ -56,12 +56,13 @@ class BaseController extends Controller {
      */
     public static function formatMessages($messages)
     {
-        $formatted = '';
+        $html = '<ul>';
         foreach ($messages->all('<li>:message</li>') as $message) {
-            $formatted .= $message;
+            $html .= $message;
         }
+        $html .= '</ul>';
 
-        return $formatted;
+        return $html;
     }
 
 	/**
