@@ -33,6 +33,9 @@
             </button>
             <a class="navbar-brand" href="/">Flight Checkin Automator</a>
         </div>
+        <div class="navbar-right hidden-xs">
+            <span class="glyphicon glyphicon-plane"></span>
+        </div>
     </div>
 </nav>
 @show
