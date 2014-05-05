@@ -33,6 +33,8 @@
                 <option value="{{ $timezone['attributes']['id'] }}">{{{ $timezone['attributes']['name'] }}}</option>
                 @endforeach
             </select>
+            <p class="help-block">What's the timezone of the airport you'll be departing from?
+                <a href="/packages/flight_checkin/images/timezone_map.gif" target="_blank">I dunno.</a></p>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
