@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="timezone">Departure Airport Timezone</label>
-            <select name="timezone_id" id="timezone">
+            <select class="form-control" name="timezone_id" id="timezone">
                 <option value="">Select...</option>
                 @foreach ($timezones as $timezone)
                 <option value="{{ $timezone['attributes']['id'] }}">{{{ $timezone['attributes']['name'] }}}</option>
