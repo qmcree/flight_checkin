@@ -3,12 +3,12 @@
     font-size: 1.5em;
 }
 
-.alert.alert-success {
+.alert.alert-success:before {
     content: "Great success!";
     color: rgba(60, 118, 61, 0.5);
 }
 
-.alert.alert-danger {
+.alert.alert-danger:before {
     content: "Houston, we've got a problem.";
     color: rgba(169, 68, 66, 0.5);
 }
