@@ -65,6 +65,22 @@ class BaseController extends Controller {
         return $html;
     }
 
+    /**
+     * Converts date to UTC based on timezone.
+     * @param integer $timezoneId
+     * @param string $date
+     * @return string
+     */
+    protected static function getUtcDate($timezoneId, $date)
+    {
+        $timezone = Timezone::find($timezoneId);
+
+        $timezone = new DateTimeZone($timezone['attributes']['name']);
+        $dateTime = new DateTime($date, $timezone);
+
+        return gmdate('Y-m-d H:i:s', $dateTime->getTimestamp());
+    }
+
 	/**
 	 * Setup the layout used by the controller.
 	 *

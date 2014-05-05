@@ -27,13 +27,11 @@ class ReservationController extends BaseController
      */
     public function lookup()
     {
-        if (!isset($_GET['confirmation_number'])) {
-            return $this->showLookupForm();
-        } else {
+        if (Input::has('confirmation_number')) {
             $validator = Validator::make(array(
-                'confirmation_number' => $_GET['confirmation_number'],
-                'first_name' => $_GET['first_name'],
-                'last_name' => $_GET['last_name'],
+                'confirmation_number' => Input::get('confirmation_number'),
+                'first_name' => Input::get('first_name'),
+                'last_name' => Input::get('last_name'),
             ), array(
                 'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
                 'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
@@ -41,9 +39,9 @@ class ReservationController extends BaseController
             ));
 
             if ($validator->passes()) {
-                $reservation = Reservation::where('confirmation_number', '=', $_GET['confirmation_number'])->first();
+                $reservation = Reservation::where('confirmation_number', '=', Input::get('confirmation_number'))->first();
 
-                if (($reservation->count() > 0) && ($reservation->first_name === $_GET['first_name']) && ($reservation->last_name === $_GET['last_name'])) {
+                if (($reservation->count() > 0) && ($reservation->first_name === Input::get('first_name')) && ($reservation->last_name === Input::get('last_name'))) {
                     self::authenticate($reservation->id);
 
                     return Redirect::to('reservation/' . $reservation->id);
@@ -57,6 +55,8 @@ class ReservationController extends BaseController
 
                 return $this->showLookupForm();
             }
+        } else {
+            return $this->showLookupForm();
         }
     }
 
@@ -79,12 +79,12 @@ class ReservationController extends BaseController
     public function create()
     {
         $validator = Validator::make(array(
-            'date' => $_POST['date'],
-            'confirmation_number' => $_POST['confirmation_number'],
-            'first_name' => $_POST['first_name'],
-            'last_name' => $_POST['last_name'],
-            'email' => $_POST['email'],
-            'timezone_id' => $_POST['timezone_id'],
+            'date' => Input::get('date'),
+            'confirmation_number' => Input::get('confirmation_number'),
+            'first_name' => Input::get('first_name'),
+            'last_name' => Input::get('last_name'),
+            'email' => Input::get('email'),
+            'timezone_id' => Input::get('timezone_id'),
         ), array(
             'date' => array('required', 'date_format:Y-m-d H:i:s'),
             'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
@@ -95,18 +95,18 @@ class ReservationController extends BaseController
         ));
 
         if ($validator->passes()) {
-            $utcDate = self::getUtcDate($_POST['timezone_id'], $_POST['date']);
+            $utcDate = self::getUtcDate(Input::get('timezone_id'), Input::get('date'));
 
             $flight = Flight::create(array(
                 'date' => $utcDate,
-                'timezone_id' => $_POST['timezone_id'],
+                'timezone_id' => Input::get('timezone_id'),
             ));
 
             Reservation::create(array(
                 'flight_id' => $flight->id,
-                'confirmation_number' => $_POST['confirmation_number'],
-                'first_name' => $_POST['first_name'],
-                'last_name' => $_POST['last_name'],
+                'confirmation_number' => Input::get('confirmation_number'),
+                'first_name' => Input::get('first_name'),
+                'last_name' => Input::get('last_name'),
             ));
 
             $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
@@ -116,22 +116,6 @@ class ReservationController extends BaseController
         }
 
         return $this->showCreateForm();
-    }
-
-    /**
-     * Converts date to UTC based on timezone.
-     * @param integer $timezoneId
-     * @param string $date
-     * @return string
-     */
-    protected static function getUtcDate($timezoneId, $date)
-    {
-        $timezone = Timezone::find($timezoneId);
-
-        $timezone = new DateTimeZone($timezone['attributes']['name']);
-        $dateTime = new DateTime($date, $timezone);
-
-        return gmdate('Y-m-d H:i:s', $dateTime->getTimestamp());
     }
 
     public function showEditForm($id)
