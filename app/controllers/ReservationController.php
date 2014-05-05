@@ -2,16 +2,21 @@
 
 class ReservationController extends BaseController
 {
+    const ALERT_SUCCESS_CREATE = '<strong>Great success!</strong> We will automatically check you in at the earliest possible time, so you get a great seat!';
+
     public function showDetail($id)
     {
 
     }
 
-    public function showCreateForm()
+    public function showCreateForm($alert = null)
     {
         $timezones = Timezone::all();
 
-        return View::make('reservation.create')->with('timezones', $timezones);
+        return View::make('reservation.create')->with(array(
+            'alert' => $alert,
+            'timezones' => $timezones,
+        ));
     }
 
     public function create()
@@ -29,6 +34,8 @@ class ReservationController extends BaseController
             'first_name' => $_POST['first_name'],
             'last_name' => $_POST['last_name'],
         ));
+
+        return $this->showCreateForm(self::ALERT_SUCCESS_CREATE);
     }
 
     /**

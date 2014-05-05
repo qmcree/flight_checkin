@@ -1,3 +1,9 @@
+@if (!is_null($alert))
+<div class="alert alert-success">
+    {{{ $alert }}}
+</div>
+@endif
+
 <form method="post" action="{{ action('ReservationController@create') }}">
     <div class="form-group">
         <label for="date">Date</label>
