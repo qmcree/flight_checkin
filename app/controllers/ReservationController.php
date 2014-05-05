@@ -9,19 +9,18 @@ class ReservationController extends BaseController
 
     public function showCreateForm()
     {
-        $airports = Airport::all();
+        $timezones = Timezone::all();
 
-        return View::make('reservation.create')->with('airports', $airports);
+        return View::make('reservation.create')->with('timezones', $timezones);
     }
 
     public function create()
     {
-        $utcDate = self::getUtcDate($_POST['airport_id'], $_POST['date']);
+        $utcDate = self::getUtcDate($_POST['timezone_id'], $_POST['date']);
 
         $flight = Flight::create(array(
             'date' => $utcDate,
-            'airline_id' => 1, // always southwest.
-            'airport_id' => $_POST['airport_id'],
+            'timezone_id' => $_POST['timezone_id'],
         ));
 
         Reservation::create(array(
@@ -33,16 +32,16 @@ class ReservationController extends BaseController
     }
 
     /**
-     * Converts date to UTC based on airport's timezone.
-     * @param integer $airportId
+     * Converts date to UTC based on timezone.
+     * @param integer $timezoneId
      * @param string $date
      * @return string
      */
-    protected static function getUtcDate($airportId, $date)
+    protected static function getUtcDate($timezoneId, $date)
     {
-        $airport = Airport::with('timezone')->find($airportId);
+        $timezone = Timezone::find($timezoneId);
 
-        $timezone = new DateTimeZone($airport['relations']['timezone']['attributes']['name']);
+        $timezone = new DateTimeZone($timezone['attributes']['name']);
         $dateTime = new DateTime($date, $timezone);
 
         return gmdate('Y-m-d H:i:s', $dateTime->getTimestamp());

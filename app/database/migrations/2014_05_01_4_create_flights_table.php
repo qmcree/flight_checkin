@@ -15,13 +15,11 @@ class CreateFlightsTable extends Migration {
 		Schema::create('flights', function($table) {
             $table->increments('id');
             $table->dateTime('date');
-            $table->integer('airline_id')->unsigned();
-            $table->integer('airport_id')->unsigned();
+            $table->integer('timezone_id')->unsigned();
         });
 
         Schema::table('flights', function($table) {
-            $table->foreign('airline_id')->references('id')->on('airlines');
-            $table->foreign('airport_id')->references('id')->on('airports');
+            $table->foreign('timezone_id')->references('id')->on('timezones');
         });
 	}
 

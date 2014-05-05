@@ -7,6 +7,7 @@ class Flight extends Eloquent
 
     /**
      * Defines query scope that finds flights within the next 24 hours.
+     * @param Flight $query
      * @return mixed
      */
     public function scopeUpcoming($query)
@@ -21,21 +22,12 @@ class Flight extends Eloquent
     }
 
     /**
-     * Defines inverse airline relation.
+     * Defines inverse timezone relation.
      * @return mixed
      */
-    public function airline()
+    public function timezone()
     {
-        return $this->belongsTo('Airline');
-    }
-
-    /**
-     * Defines inverse airport relation.
-     * @return mixed
-     */
-    public function airport()
-    {
-        return $this->belongsTo('Airport');
+        return $this->belongsTo('Timezone');
     }
 
     /**

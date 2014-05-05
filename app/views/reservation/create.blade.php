@@ -20,11 +20,11 @@
         <input type="email" name="email" id="email" />
     </div>
     <div class="form-group">
-        <label for="airport">Departure Airport</label>
-        <select name="airport_id" id="airport">
+        <label for="timezone">Departure Airport Timezone</label>
+        <select name="timezone_id" id="timezone">
             <option value="">Select...</option>
-            @foreach ($airports as $airport)
-            <option value="{{ $airport['attributes']['id'] }}">{{{ $airport['attributes']['abbreviation'] }}} - {{{ $airport['attributes']['name'] }}}</option>
+            @foreach ($timezones as $timezone)
+            <option value="{{ $timezone['attributes']['id'] }}">{{{ $timezone['attributes']['name'] }}}</option>
             @endforeach
         </select>
     </div>

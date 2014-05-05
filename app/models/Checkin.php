@@ -73,6 +73,7 @@ class Checkin extends Eloquent
             ));
             $response2 = curl_exec($request2);
 
+            // SWA error occurred if tries to redirect.
             if (self::triesRedirect($response2))
                 return false;
 
