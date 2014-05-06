@@ -38,8 +38,8 @@
             <select class="form-control" name="timezone_id" id="timezone">
                 <option value="">Select...</option>
                 @foreach ($timezones as $timezone)
-                <option value="{{ $timezone['attributes']['id'] }}" {{ ($timezone['attributes']['id'] === $flight_timezone_id) ? 'selected' : '' }}>
-                    {{{ $timezone['attributes']['name'] }}}
+                <option value="{{ $timezone->id }}" {{ ($timezone->id === $reservation->flight->timezone->id) ? 'selected' : '' }}>
+                    {{{ $timezone->name }}}
                 </option>
                 @endforeach
             </select>
