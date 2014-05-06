@@ -7,6 +7,9 @@ class ReservationController extends BaseController
 
     protected function showLookupForm()
     {
+        // debug
+        $this->setAlertWarning('Testy right here.');
+
         return View::make('reservation.lookup')->with(array(
             '_success' => $this->getAlertSuccess(),
             '_danger' => $this->getAlertDanger(),

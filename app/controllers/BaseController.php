@@ -14,7 +14,7 @@ class BaseController extends Controller {
         $this->alert['success'] = $alert;
     }
 
-    protected function getAlertSuccess()
+    public function getAlertSuccess()
     {
         return $this->alert['success'];
     }
@@ -24,7 +24,7 @@ class BaseController extends Controller {
         $this->alert['info'] = $alert;
     }
 
-    protected function getAlertInfo()
+    public function getAlertInfo()
     {
         return $this->alert['info'];
     }
@@ -34,7 +34,7 @@ class BaseController extends Controller {
         $this->alert['warning'] = $alert;
     }
 
-    protected function getAlertWarning()
+    public function getAlertWarning()
     {
         return $this->alert['warning'];
     }
@@ -44,7 +44,7 @@ class BaseController extends Controller {
         $this->alert['danger'] = $alert;
     }
 
-    protected function getAlertDanger()
+    public function getAlertDanger()
     {
         return $this->alert['danger'];
     }
