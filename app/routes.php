@@ -33,8 +33,9 @@ Route::get('debug', function() {
     //$upcomingFlights[0]->reservation->checkin->attempts++;
     //$upcomingFlights[0]->save();
 
-    $flight = Flight::find(1)->with('reservation.checkin')->get();
-    $flight->reservation->checkin->attempts++;
+    $flight = Flight::find(1)->with('reservation.checkin')->first();
+    var_dump($flight->reservation->checkin->attempts);
+    exit;
     $flight->save();
 
     //var_dump($upcomingFlights[0]->reservation->checkin->attempts);
