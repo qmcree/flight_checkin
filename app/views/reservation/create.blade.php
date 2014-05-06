@@ -1,8 +1,6 @@
 @extends('layout.master')
 
 @section('content')
-    <h2>New Reservation</h2>
-
     <form method="post" action="{{ action('ReservationController@create') }}">
         <div class="form-group">
             <label for="date">Date</label>

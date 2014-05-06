@@ -1,8 +1,6 @@
 @extends('layout.master')
 
 @section('content')
-    <h2>Lookup Your Reservation</h2>
-
     <form method="get" action="{{ action('ReservationController@lookup') }}">
         <div class="form-group">
             <label for="confirmation-number">Confirmation Number</label>

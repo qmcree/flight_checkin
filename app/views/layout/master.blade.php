@@ -64,9 +64,12 @@
     @endif
 
     <ul id="nav-main" class="nav nav-tabs">
-        <li class="active"><a href="#">New Reservation</a></li>
-        <li class=""><a href="#">Lookup Reservation</a></li>
-        <li class=""><a href="#">Change Reservation</a></li>
+        <li class="{{ (Request::is(action('ReservationController@showCreateForm'))) ? 'active' : '' }}">
+            <a href="{{ action('ReservationController@showCreateForm') }}">New Reservation</a></li>
+        <li class="{{ (Request::is(action('ReservationController@lookup'))) ? 'active' : '' }}">
+            <a href="{{ action('ReservationController@lookup') }}">Lookup Reservation</a></li>
+        <li class="{{ (Request::is(action('ReservationController@showEditForm'))) ? 'active' : '' }}">
+            <a href="{{ action('ReservationController@showEditForm') }}">Modify Reservation</a></li>
     </ul>
 
     @yield('content')
