@@ -14,8 +14,8 @@ class CheckinController extends BaseController
      */
     public static function attempt($flight)
     {
-        $flight->reservation->checkin->attempts = $flight->reservation->checkin->attempts + 1;
-        $flight->save();
+        $flight->reservation->checkin->attempts++;
+        $flight->reservation->checkin->save();
 
         // make first request.
         $request1 = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
