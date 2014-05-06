@@ -31,7 +31,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Flight Checkin Automator</a>
+            <a class="navbar-brand" href="{{ action('ReservationController@showCreateForm') }}">Flight Checkin Automator</a>
         </div>
         <p class="navbar-text"><small>Helping {{ $reservation_count }} passengers get that perfect seat.</small></p>
     </div>
