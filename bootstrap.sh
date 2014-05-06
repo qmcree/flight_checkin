@@ -13,14 +13,16 @@ rm -rf /var/www/
 mkdir /var/www/
 service apache2 restart
 
-# Setup Laravel.
+# Install Composer.
 cd ~
 apt-get install -y curl libcurl3 libcurl3-dev php5-curl
-wget http://laravel.com/laravel.phar
-chmod +x laravel.phar
-mv laravel.phar /usr/local/bin/laravel
+curl -sS https://getcomposer.org/installer | php
+chmod +x composer.phar
+mv composer.phar /usr/local/bin/composer
+
+# Setup Laravel using Composer.
 cd /var/www/
-laravel new ${DEV_PROJECT_NAME}
+composer create-project laravel/laravel ${DEV_PROJECT_NAME} --prefer-dist
 chown -R vagrant:www-data ${DEV_PROJECT_NAME}/
 chmod -R ug+w ${DEV_PROJECT_NAME}/app/storage/
 mysql -uroot -ppassword -e "CREATE DATABASE ${DEV_PROJECT_NAME};"
