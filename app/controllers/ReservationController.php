@@ -47,7 +47,7 @@ class ReservationController extends BaseController
                 if ((!is_null($reservation)) && ($reservation->first_name === Input::get('first_name')) && ($reservation->last_name === Input::get('last_name'))) {
                     self::authenticate($reservation->id);
 
-                    return Redirect::action('ReservationController@showDetail', array('id' => $reservation->id));
+                    return Redirect::action('ReservationController@showEditForm', array('id' => $reservation->id));
                 } else {
                     $this->setAlertDanger(self::ALERT_DANGER_LOOKUP);
                     return $this->showLookupForm();
@@ -61,11 +61,6 @@ class ReservationController extends BaseController
         } else {
             return $this->showLookupForm();
         }
-    }
-
-    public function showDetail($id)
-    {
-        return View::make('reservation.detail');
     }
 
     public function showCreateForm()

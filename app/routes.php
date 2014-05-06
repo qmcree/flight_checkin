@@ -23,7 +23,6 @@ Route::post('reservation/new', 'ReservationController@create');
 Route::get('reservation/lookup', 'ReservationController@lookup');
 
 Route::group(array('before' => 'auth.reservation'), function() {
-    Route::get('reservation/{id}', 'ReservationController@showDetail');
     Route::get('reservation/{id}/edit', 'ReservationController@showEditForm');
     Route::post('reservation/{id}/edit', 'ReservationController@edit');
     Route::post('reservation/{id}/delete', 'ReservationController@delete');
