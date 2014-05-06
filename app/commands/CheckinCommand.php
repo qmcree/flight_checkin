@@ -37,7 +37,7 @@ class CheckinCommand extends Command {
 	 */
 	public function fire()
 	{
-        $upcomingFlights = Flight::with('reservation')->upcoming()->get();
+        $upcomingFlights = Flight::upcoming()->with('reservation.checkin')->get();
 
         foreach ($upcomingFlights as $flight) {
             $this->info(var_export(CheckinController::attempt($flight), true));
