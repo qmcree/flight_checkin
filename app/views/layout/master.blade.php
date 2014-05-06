@@ -39,31 +39,37 @@
 @show
 
 <div class="container">
-        @if (isset($_success) && !is_null($_success))
-        <div class="alert alert-success">
-            {{ $_success }}
-        </div>
-        @endif
+    <ul id="nav-main" class="nav nav-tabs">
+        <li class="active"><a href="#">New Reservation</a></li>
+        <li class=""><a href="#">Lookup Reservation</a></li>
+        <li class=""><a href="#">Change Reservation</a></li>
+    </ul>
 
-        @if (isset($_info) && !is_null($_info))
-        <div class="alert alert-info">
-            {{ $_info }}
-        </div>
-        @endif
+    @if (isset($_success) && !is_null($_success))
+    <div class="alert alert-success">
+        {{ $_success }}
+    </div>
+    @endif
 
-        @if (isset($_warning) && !is_null($_warning))
-        <div class="alert alert-warning">
-            {{ $_warning }}
-        </div>
-        @endif
+    @if (isset($_info) && !is_null($_info))
+    <div class="alert alert-info">
+        {{ $_info }}
+    </div>
+    @endif
 
-        @if (isset($_danger) && !is_null($_danger))
-        <div class="alert alert-danger">
-            {{ $_danger }}
-        </div>
-        @endif
+    @if (isset($_warning) && !is_null($_warning))
+    <div class="alert alert-warning">
+        {{ $_warning }}
+    </div>
+    @endif
 
-        @yield('content')
+    @if (isset($_danger) && !is_null($_danger))
+    <div class="alert alert-danger">
+        {{ $_danger }}
+    </div>
+    @endif
+
+    @yield('content')
 </div>
 
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
