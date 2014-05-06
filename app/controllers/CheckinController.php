@@ -14,7 +14,7 @@ class CheckinController extends BaseController
      */
     public static function attempt($flight)
     {
-        $flight->reservation->checkin->attempts++;
+        $flight->reservation->checkin->attempts = $flight->reservation->checkin->attempts + 1;
         $flight->save();
 
         // make first request.
