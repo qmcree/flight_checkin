@@ -130,12 +130,12 @@ class ReservationController extends BaseController
         if ($validator->passes()) {
             $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
 
-            $reservation['relations']['flight']['attributes']['date'] = Input::get('date');
-            $reservation['attributes']['confirmation_number'] = Input::get('confirmation_number');
-            $reservation['attributes']['first_name'] = Input::get('first_name');
-            $reservation['attributes']['last_name'] = Input::get('last_name');
-            $reservation['relations']['checkin']['attributes']['passenger_email'] = Input::get('email');
-            $reservation['relations']['flight']['attributes']['timezone_id'] = Input::get('timezone_id');
+            $reservation->flight->date = Input::get('date');
+            $reservation->confirmation_number = Input::get('confirmation_number');
+            $reservation->first_name = Input::get('first_name');
+            $reservation->last_name = Input::get('last_name');
+            $reservation->checkin->passenger_email = Input::get('email');
+            $reservation->flight->timezone_id = Input::get('timezone_id');
 
             $reservation->save();
 
