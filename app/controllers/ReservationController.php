@@ -128,7 +128,7 @@ class ReservationController extends BaseController
         $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
-            $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
+            $reservation =& Reservation::find($id)->with('checkin', 'flight.timezone')->first();
             $flight =& $reservation['relations']['flight'];
             $checkin =& $reservation['relations']['checkin'];
 
