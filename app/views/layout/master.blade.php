@@ -65,13 +65,14 @@
 
     <ul id="nav-main" class="nav nav-tabs">
         <li class="{{ (Request::is('reservation/new')) ? 'active' : '' }}">
-            <a href="{{ action('ReservationController@showCreateForm') }}">New Reservation</a></li>
+            <a href="{{ action('ReservationController@showCreateForm') }}">New Reservation</a>
+        </li>
         <li class="{{ (Request::is('reservation/lookup')) ? 'active' : '' }}">
-            <a href="{{ action('ReservationController@lookup') }}">Lookup Reservation</a></li>
+            <a href="{{ action('ReservationController@lookup') }}">Lookup Reservation</a>
+        </li>
         @if ($reservation_id = Session::get('reservation_id'))
         <li class="{{ (Request::is('reservation/*/edit')) ? 'active' : '' }}">
             <a href="{{ action('ReservationController@showEditForm', array('id' => $reservation_id)) }}">Modify Your Reservation</a>
-            <a href="#" class="glyphicon glyphicon-remove"></a>
         </li>
         @endif
     </ul>
