@@ -14,7 +14,7 @@ class CheckinController extends BaseController
      */
     public static function attempt($flight)
     {
-        ++$flight->reservation->checkin->attempts;
+        $flight->reservation->checkin->attempts++;
         $flight->save();
 
         // make first request.
@@ -29,8 +29,8 @@ class CheckinController extends BaseController
             CURLOPT_CONNECTTIMEOUT => 20,
             CURLOPT_REFERER => 'https://www.southwest.com/flight/',
             CURLOPT_USERAGENT => self::USER_AGENT,
-            CURLOPT_POSTFIELDS => sprintf('confirmationNumber=%s&firstName=%s&lastName=%s&submitButton=Check+In', $reservation['confirmation_number'],
-                $reservation['first_name'], $reservation['last_name']),
+            CURLOPT_POSTFIELDS => sprintf('confirmationNumber=%s&firstName=%s&lastName=%s&submitButton=Check+In', $flight->reservation->confirmation_number,
+                $flight->reservation->first_name, $flight->reservation->last_name),
         ));
         $response1 = curl_exec($request1);
         curl_close($request1);
