@@ -31,5 +31,5 @@ Route::group(array('before' => 'auth.reservation'), function() {
 Route::get('debug', function() {
     $upcomingFlights = Flight::upcoming()->with('reservation.checkin')->get();
 
-    var_dump($upcomingFlights);
+    var_dump($upcomingFlights[0]);
 });
