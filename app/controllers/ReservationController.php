@@ -6,11 +6,11 @@ class ReservationController extends BaseController
     const ALERT_SUCCESS_CREATE = "We will automatically check you in at the earliest possible time so you can board early!";
     const ALERT_SUCCESS_EDIT = "Your reservation has been updated.";
 
-    protected $validationRules;
+    protected $validatorRules;
 
     public function __construct()
     {
-        $this->validationRules = array(
+        $this->validatorRules = array(
             'date' => array('required', 'date_format:Y-m-d H:i:s'),
             'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
             'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
@@ -44,9 +44,9 @@ class ReservationController extends BaseController
     {
         if (Input::has('confirmation_number')) {
             $validator = Validator::make(Input::all(), array(
-                'confirmation_number' => $this->validationRules['confirmation_number'],
-                'first_name' => $this->validationRules['first_name'],
-                'last_name' => $this->validationRules['last_name'],
+                'confirmation_number' => $this->validatorRules['confirmation_number'],
+                'first_name' => $this->validatorRules['first_name'],
+                'last_name' => $this->validatorRules['last_name'],
             ));
 
             if ($validator->passes()) {
@@ -84,7 +84,7 @@ class ReservationController extends BaseController
 
     public function create()
     {
-        $validator = Validator::make(Input::all(), $this->validationRules);
+        $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
             $utcDate = self::getUtcDate(Input::get('timezone_id'), Input::get('date'));
@@ -125,7 +125,7 @@ class ReservationController extends BaseController
 
     public function edit($id)
     {
-        $validator = Validator::make(Input::all(), $this->validationRules);
+        $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
             $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
