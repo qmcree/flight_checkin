@@ -32,7 +32,7 @@
             <select class="form-control" name="timezone_id" id="timezone">
                 <option value="" selected>Select...</option>
                 @foreach ($timezones as $timezone)
-                <option value="{{ $timezone['attributes']['id'] }}">{{{ $timezone['attributes']['name'] }}}</option>
+                <option value="{{ $timezone->id }}">{{{ $timezone->name }}}</option>
                 @endforeach
             </select>
             <p class="help-block">What's the timezone of the airport you'll be departing from?
