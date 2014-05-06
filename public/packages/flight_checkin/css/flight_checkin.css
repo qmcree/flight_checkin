@@ -2,6 +2,10 @@
     width: 700px;
 }
 
+#nav-main {
+    margin-bottom: 20px;
+}
+
 .alert:before {
     font-weight: 500;
     font-size: 1.5em;

@@ -5,8 +5,7 @@
       <paths name="localhost">
         <serverdata>
           <mappings>
-            <mapping deploy="/flight_checkin/app" local="$PROJECT_DIR$/app" web="/" />
-            <mapping deploy="/flight_checkin/public" local="$PROJECT_DIR$/public" web="/" />
+            <mapping deploy="/flight_checkin" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
