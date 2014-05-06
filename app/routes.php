@@ -29,9 +29,13 @@ Route::group(array('before' => 'auth.reservation'), function() {
 });
 
 Route::get('debug', function() {
-    $upcomingFlights = Flight::upcoming()->with('reservation.checkin')->get();
-    $upcomingFlights[0]->reservation->checkin->attempts++;
-    $upcomingFlights[0]->save();
+    //$upcomingFlights = Flight::upcoming()->with('reservation.checkin')->get();
+    //$upcomingFlights[0]->reservation->checkin->attempts++;
+    //$upcomingFlights[0]->save();
+
+    $flight = Flight::find(1)->with('reservation.checkin')->get();
+    $flight->reservation->checkin->attempts++;
+    $flight->save();
 
     //var_dump($upcomingFlights[0]->reservation->checkin->attempts);
 });
