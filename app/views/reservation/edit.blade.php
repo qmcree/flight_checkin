@@ -3,6 +3,8 @@
 @section('content')
     <?php
     //$flight_timezone_id = $reservation['relations']['flight']['relations']['timezone']['attributes']['id'];
+    var_dump($reservation);
+    exit;
     ?>
     <form method="post" action="{{ action('ReservationController@edit') }}">
         <div class="form-group">
@@ -36,7 +38,7 @@
                 <option value="">Select...</option>
                 @foreach ($timezones as $timezone)
                 <option value="{{ $timezone['attributes']['id'] }}"
-                    {{ ($timezone['attributes']['id'] === $reservation['attributes']['timezone_id']) ? 'selected' : '' }}>
+                    {{ ($timezone['attributes']['id'] === $flight_timezone_id) ? 'selected' : '' }}>
                 {{{ $timezone['attributes']['name'] }}}
                 </option>
                 @endforeach
