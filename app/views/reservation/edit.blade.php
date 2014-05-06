@@ -1,6 +1,9 @@
 @extends('layout.master')
 
 @section('content')
+    <?php
+    $flight_timezone_id = $reservation['relations']['flight']['relations']['timezone']['attributes']['id'];
+    ?>
     <form method="post" action="{{ action('ReservationController@edit') }}">
         <div class="form-group">
             <label for="date">Date</label>
@@ -32,7 +35,10 @@
             <select class="form-control" name="timezone_id" id="timezone">
                 <option value="">Select...</option>
                 @foreach ($timezones as $timezone)
-                <option value="{{ $timezone['attributes']['id'] }}">{{{ $timezone['attributes']['name'] }}}</option>
+                <option value="{{ $timezone['attributes']['id'] }}"
+                    {{ ($timezone['attributes']['id'] === $flight_timezone_id) ? 'selected' : '' }}>
+                {{{ $timezone['attributes']['name'] }}}
+                </option>
                 @endforeach
             </select>
             <p class="help-block">What's the timezone of the airport you'll be departing from?
