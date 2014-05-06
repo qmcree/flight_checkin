@@ -68,8 +68,10 @@
             <a href="{{ action('ReservationController@showCreateForm') }}">New Reservation</a></li>
         <li class="{{ (Request::is('reservation/lookup')) ? 'active' : '' }}">
             <a href="{{ action('ReservationController@lookup') }}">Lookup Reservation</a></li>
+        @if ($reservation_id = Session::get('reservation_id'))
         <li class="{{ (Request::is('reservation/*/edit')) ? 'active' : '' }}">
-            <a href="{{ action('ReservationController@showEditForm') }}">Modify Reservation</a></li>
+            <a href="{{ action('ReservationController@showEditForm', array('id' => $reservation_id)) }}">Modify Reservation</a></li>
+        @endif
     </ul>
 
     @yield('content')
