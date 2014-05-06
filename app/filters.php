@@ -22,6 +22,8 @@ App::after(function($request, $response)
 	//
 });
 
+View::composer('*', 'GlobalComposer');
+
 /*
 |--------------------------------------------------------------------------
 | Authentication Filters
