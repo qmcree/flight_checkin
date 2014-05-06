@@ -15,7 +15,7 @@ Route::pattern('id', '[0-9]+');
 
 
 Route::get('/', function() {
-    Redirect::action('ReservationController@showCreateForm');
+    return Redirect::action('ReservationController@showCreateForm');
 });
 
 Route::get('reservation/new', 'ReservationController@showCreateForm');
