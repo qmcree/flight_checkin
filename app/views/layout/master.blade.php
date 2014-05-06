@@ -23,7 +23,7 @@
 
 @section('navbar')
 <nav id="navbar-top" class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-top-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -38,9 +38,8 @@
 </nav>
 @show
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <div class="col-sm-2"></div>
         <div class="col-sm-8">
             @if (isset($_success) && !is_null($_success))
             <div class="alert alert-success">
@@ -68,7 +67,6 @@
 
             @yield('content')
         </div>
-        <div class="col-sm-2"></div>
     </div>
 </div>
 
