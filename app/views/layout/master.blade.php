@@ -40,7 +40,8 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-6">
             @if (isset($_success) && !is_null($_success))
             <div class="alert alert-success">
                 {{ $_success }}
@@ -67,6 +68,7 @@
 
             @yield('content')
         </div>
+        <div class="col-sm-4"></div>
     </div>
 </div>
 
