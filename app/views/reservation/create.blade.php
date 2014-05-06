@@ -41,6 +41,4 @@
         <button type="submit" class="btn btn-primary">Create</button>
         <button type="reset" class="btn btn-default">Clear</button>
     </form>
-
-    <p><small><a href="{{ action('ReservationController@lookup') }}">Trying to change an existing reservation?</a></small></p>
 @stop

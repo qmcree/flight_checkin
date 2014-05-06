@@ -2,7 +2,9 @@
 
 @section('content')
     <?php
-    $flight_timezone_id = $reservation['relations']['flight']['relations']['timezone']['attributes']['id'];
+    $checkin = $reservation['relations']['checkin'];
+    $flight = $reservation['relations']['flight'];
+    $flight_timezone_id = $flight['relations']['timezone']['attributes']['id'];
     ?>
     <form method="post" action="{{ action('ReservationController@edit') }}">
         <div class="form-group">
@@ -15,19 +17,19 @@
         </div>
         <div class="form-group">
             <label for="confirmation-number">Confirmation Number</label>
-            <input type="text" class="form-control" name="confirmation_number" id="confirmation-number" />
+            <input type="text" class="form-control" name="confirmation_number" id="confirmation-number" value="{{{ $flight['attributes']['date'] }}}" />
         </div>
         <div class="form-group">
             <label for="first-name">First Name</label>
-            <input type="text" class="form-control" name="first_name" id="first-name" />
+            <input type="text" class="form-control" name="first_name" id="first-name" value="{{{ $reservation['attributes']['first_name'] }}}" />
         </div>
         <div class="form-group">
             <label for="last-name">Last Name</label>
-            <input type="text" class="form-control" name="last_name" id="last-name" />
+            <input type="text" class="form-control" name="last_name" id="last-name" value="{{{ $reservation['attributes']['first_name'] }}}" />
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" id="email" />
+            <input type="email" class="form-control" name="email" id="email" value="{{{ $checkin['attributes']['passenger_email'] }}}" />
             <p class="help-block">We'll shoot you an email right after we check you in.</p>
         </div>
         <div class="form-group">
@@ -35,9 +37,8 @@
             <select class="form-control" name="timezone_id" id="timezone">
                 <option value="">Select...</option>
                 @foreach ($timezones as $timezone)
-                <option value="{{ $timezone['attributes']['id'] }}"
-                    {{ ($timezone['attributes']['id'] === $flight_timezone_id) ? 'selected' : '' }}>
-                {{{ $timezone['attributes']['name'] }}}
+                <option value="{{ $timezone['attributes']['id'] }}" {{ ($timezone['attributes']['id'] === $flight_timezone_id) ? 'selected' : '' }}>
+                    {{{ $timezone['attributes']['name'] }}}
                 </option>
                 @endforeach
             </select>
