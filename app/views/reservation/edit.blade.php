@@ -11,13 +11,14 @@
             <label for="date">Date</label>
 
             <div class="input-group">
-                <input type="text" class="form-control datetime" name="date" id="date" />
+                <input type="text" class="form-control datetime" name="date" id="date" value="{{{ $flight['attributes']['date'] }}}" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
         </div>
         <div class="form-group">
             <label for="confirmation-number">Confirmation Number</label>
-            <input type="text" class="form-control" name="confirmation_number" id="confirmation-number" value="{{{ $flight['attributes']['date'] }}}" />
+            <input type="text" class="form-control" name="confirmation_number" id="confirmation-number"
+                   value="{{{ $reservation['attributes']['confirmation_number'] }}}" />
         </div>
         <div class="form-group">
             <label for="first-name">First Name</label>
