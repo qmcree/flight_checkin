@@ -40,7 +40,7 @@ class CheckinCommand extends Command {
         $upcomingFlights = Flight::with('reservation')->upcoming()->get();
 
         foreach ($upcomingFlights as $flight) {
-            $this->info(var_export(Checkin::attempt($flight), true));
+            $this->info(var_export(CheckinController::attempt($flight), true));
         }
 	}
 }
