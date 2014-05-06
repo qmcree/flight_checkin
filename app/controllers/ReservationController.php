@@ -42,7 +42,7 @@ class ReservationController extends BaseController
             ));
 
             if ($validator->passes()) {
-                $reservation = Reservation::where('confirmation_number', '=', Input::get('confirmation_number'))->firstOrFail();
+                $reservation = Reservation::where('confirmation_number', '=', Input::get('confirmation_number'))->first();
 
                 var_dump($reservation);
                 exit;
