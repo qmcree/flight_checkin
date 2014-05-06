@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <label for="last-name">Last Name</label>
-            <input type="text" class="form-control" name="last_name" id="last-name" value="{{{ $reservation['attributes']['first_name'] }}}" />
+            <input type="text" class="form-control" name="last_name" id="last-name" value="{{{ $reservation['attributes']['last_name'] }}}" />
         </div>
         <div class="form-group">
             <label for="email">Email</label>
