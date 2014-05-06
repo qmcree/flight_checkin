@@ -6,7 +6,6 @@ class GlobalComposer
     {
         $view->with(array(
             'reservation_count' => Reservation::all()->count(),
-            '_warning' => BaseController::instance()->getAlertWarning(),
         ));
     }
 } 

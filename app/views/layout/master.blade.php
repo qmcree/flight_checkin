@@ -33,7 +33,7 @@
             </button>
             <a class="navbar-brand" href="/">Flight Checkin Automator</a>
         </div>
-        <p class="navbar-text"><small>Helping 0 passengers get that perfect seat.</small></p>
+        <p class="navbar-text"><small>Helping {{ $reservation_count }} passengers get that perfect seat.</small></p>
     </div>
 </nav>
 @show
