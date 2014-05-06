@@ -1,36 +1,31 @@
 @extends('layout.master')
 
 @section('content')
-    <?php
-    $checkin = $reservation['relations']['checkin'];
-    $flight = $reservation['relations']['flight'];
-    $flight_timezone_id = $flight['relations']['timezone']['attributes']['id'];
-    ?>
     <form method="post" action="{{ action('ReservationController@edit', array('id' => Session::get('reservation_id'))) }}">
         <div class="form-group">
             <label for="date">Date</label>
 
             <div class="input-group">
-                <input type="text" class="form-control datetime" name="date" id="date" value="{{{ $flight['attributes']['date'] }}}" />
+                <input type="text" class="form-control datetime" name="date" id="date" value="{{{ $reservation->flight->date }}}" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
         </div>
         <div class="form-group">
             <label for="confirmation-number">Confirmation Number</label>
             <input type="text" class="form-control" name="confirmation_number" id="confirmation-number"
-                   value="{{{ $reservation['attributes']['confirmation_number'] }}}" />
+                   value="{{{ $reservation->confirmation_number }}}" />
         </div>
         <div class="form-group">
             <label for="first-name">First Name</label>
-            <input type="text" class="form-control" name="first_name" id="first-name" value="{{{ $reservation['attributes']['first_name'] }}}" />
+            <input type="text" class="form-control" name="first_name" id="first-name" value="{{{ $reservation->first_name }}}" />
         </div>
         <div class="form-group">
             <label for="last-name">Last Name</label>
-            <input type="text" class="form-control" name="last_name" id="last-name" value="{{{ $reservation['attributes']['last_name'] }}}" />
+            <input type="text" class="form-control" name="last_name" id="last-name" value="{{{ $reservation->last_name }}}" />
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" id="email" value="{{{ $checkin['attributes']['passenger_email'] }}}" />
+            <input type="email" class="form-control" name="email" id="email" value="{{{ $reservation->checkin->passenger_email }}}" />
             <p class="help-block">We'll shoot you an email right after we check you in.</p>
         </div>
         <div class="form-group">
