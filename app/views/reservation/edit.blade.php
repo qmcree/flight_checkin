@@ -2,9 +2,7 @@
 
 @section('content')
     <?php
-    //$flight_timezone_id = $reservation['relations']['flight']['relations']['timezone']['attributes']['id'];
-    var_dump($reservation);
-    exit;
+    $flight_timezone_id = $reservation['relations']['flight']['relations']['timezone']['attributes']['id'];
     ?>
     <form method="post" action="{{ action('ReservationController@edit') }}">
         <div class="form-group">
