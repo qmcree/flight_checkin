@@ -44,10 +44,7 @@ class ReservationController extends BaseController
             if ($validator->passes()) {
                 $reservation = Reservation::where('confirmation_number', '=', Input::get('confirmation_number'))->first();
 
-                var_dump($reservation);
-                exit;
-
-                if (($reservation->first_name === Input::get('first_name')) && ($reservation->last_name === Input::get('last_name'))) {
+                if ((!is_null($reservation)) && ($reservation->first_name === Input::get('first_name')) && ($reservation->last_name === Input::get('last_name'))) {
                     self::authenticate($reservation->id);
 
                     return Redirect::to('reservation/' . $reservation->id);
