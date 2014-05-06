@@ -27,3 +27,9 @@ Route::group(array('before' => 'auth.reservation'), function() {
     Route::post('reservation/{id}/edit', 'ReservationController@edit');
     Route::post('reservation/{id}/delete', 'ReservationController@delete');
 });
+
+Route::get('debug', function() {
+    $upcomingFlights = Flight::upcoming()->with('reservation.checkin')->get();
+
+    var_dump($upcomingFlights);
+});
