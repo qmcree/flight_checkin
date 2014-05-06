@@ -39,12 +39,6 @@
 @show
 
 <div class="container">
-    <ul id="nav-main" class="nav nav-tabs">
-        <li class="active"><a href="#">New Reservation</a></li>
-        <li class=""><a href="#">Lookup Reservation</a></li>
-        <li class=""><a href="#">Change Reservation</a></li>
-    </ul>
-
     @if (isset($_success) && !is_null($_success))
     <div class="alert alert-success">
         {{ $_success }}
@@ -68,6 +62,12 @@
         {{ $_danger }}
     </div>
     @endif
+
+    <ul id="nav-main" class="nav nav-tabs">
+        <li class="active"><a href="#">New Reservation</a></li>
+        <li class=""><a href="#">Lookup Reservation</a></li>
+        <li class=""><a href="#">Change Reservation</a></li>
+    </ul>
 
     @yield('content')
 </div>
