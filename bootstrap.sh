@@ -23,6 +23,7 @@ cd /var/www/
 laravel new ${DEV_PROJECT_NAME}
 chown -R vagrant:www-data ${DEV_PROJECT_NAME}/
 chmod -R ug+w ${DEV_PROJECT_NAME}/app/storage/
+mysql -uroot -ppassword -e "CREATE DATABASE ${DEV_PROJECT_NAME};"
 
 # Configure Apache.
 a2dissite default

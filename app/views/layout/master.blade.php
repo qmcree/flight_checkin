@@ -64,11 +64,11 @@
     @endif
 
     <ul id="nav-main" class="nav nav-tabs">
-        <li class="{{ (Request::is(action('ReservationController@showCreateForm'))) ? 'active' : '' }}">
+        <li class="{{ (Request::is('reservation/new')) ? 'active' : '' }}">
             <a href="{{ action('ReservationController@showCreateForm') }}">New Reservation</a></li>
-        <li class="{{ (Request::is(action('ReservationController@lookup'))) ? 'active' : '' }}">
+        <li class="{{ (Request::is('reservation/lookup')) ? 'active' : '' }}">
             <a href="{{ action('ReservationController@lookup') }}">Lookup Reservation</a></li>
-        <li class="{{ (Request::is(action('ReservationController@showEditForm'))) ? 'active' : '' }}">
+        <li class="{{ (Request::is('reservation/*/edit')) ? 'active' : '' }}">
             <a href="{{ action('ReservationController@showEditForm') }}">Modify Reservation</a></li>
     </ul>
 
