@@ -15,6 +15,6 @@
             <input type="text" class="form-control" name="last_name" id="last-name" />
         </div>
         <button type="submit" class="btn btn-primary">Lookup</button>
-        <button type="reset" class="btn btn-default">Clear</button>
+        <button type="reset" class="btn btn-default">Reset</button>
     </form>
 @stop

@@ -39,6 +39,6 @@
                 <a href="/packages/flight_checkin/images/timezone_map.gif" target="_blank">I dunno.</a></p>
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
-        <button type="reset" class="btn btn-default">Clear</button>
+        <button type="reset" class="btn btn-default">Reset</button>
     </form>
 @stop

@@ -5,11 +5,22 @@ class ReservationController extends BaseController
     const ALERT_DANGER_LOOKUP = "I can't find a reservation matching those details.";
     const ALERT_SUCCESS_CREATE = "We will automatically check you in at the earliest possible time so you can board early!";
 
+    protected $validationRules;
+
+    public function __construct()
+    {
+        $this->validationRules = array(
+            'date' => array('required', 'date_format:Y-m-d H:i:s'),
+            'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
+            'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
+            'last_name' => array('required', 'alpha', 'min:2', 'max:20'),
+            'email' => array('required', 'email', 'max:30'),
+            'timezone_id' => array('required', 'numeric', 'max:5'),
+        );
+    }
+
     protected function showLookupForm()
     {
-        // debug
-        $this->setAlertWarning('Testy right here.');
-
         return View::make('reservation.lookup')->with(array(
             '_success' => $this->getAlertSuccess(),
             '_danger' => $this->getAlertDanger(),
@@ -36,9 +47,9 @@ class ReservationController extends BaseController
                 'first_name' => Input::get('first_name'),
                 'last_name' => Input::get('last_name'),
             ), array(
-                'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
-                'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
-                'last_name' => array('required', 'alpha', 'min:2', 'max:20'),
+                'confirmation_number' => $this->validationRules['confirmation_number'],
+                'first_name' => $this->validationRules['first_name'],
+                'last_name' => $this->validationRules['last_name'],
             ));
 
             if ($validator->passes()) {
@@ -131,7 +142,18 @@ class ReservationController extends BaseController
 
     public function edit($id)
     {
+        $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
+        $flight = $reservation['relations']['flight'];
+        $checkin = $reservation['relations']['checkin'];
 
+        $flight['attributes']['date'] = Input::get('date');
+        $reservation['attributes']['confirmation_number'] = Input::get('confirmation_number');
+        $reservation['attributes']['first_name'] = Input::get('first_name');
+        $reservation['attributes']['last_name'] = Input::get('last_name');
+        $checkin['attributes']['passenger_email'] = Input::get('email');
+        $flight['attributes']['timezone_id'] = Input::get('timezone_id');
+
+        $reservation->save();
     }
 
     public function delete($id)
