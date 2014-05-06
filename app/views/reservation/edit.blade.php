@@ -6,7 +6,7 @@
     $flight = $reservation['relations']['flight'];
     $flight_timezone_id = $flight['relations']['timezone']['attributes']['id'];
     ?>
-    <form method="post" action="{{ action('ReservationController@edit') }}">
+    <form method="post" action="{{ action('ReservationController@edit', array('id' => Session::get('reservation_id'))) }}">
         <div class="form-group">
             <label for="date">Date</label>
 
