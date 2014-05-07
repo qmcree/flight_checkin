@@ -16,7 +16,7 @@ class ReservationController extends BaseController
             'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
             'last_name' => array('required', 'alpha', 'min:2', 'max:20'),
             'email' => array('required', 'email', 'max:30'),
-            'timezone_id' => array('required', 'numeric', 'max:100'),
+            'timezone_id' => array('required', 'numeric', 'max:50'),
         );
     }
 
