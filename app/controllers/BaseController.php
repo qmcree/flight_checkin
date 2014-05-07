@@ -62,7 +62,7 @@ class BaseController extends Controller {
             '_info' => $this->getAlertInfo(),
             '_warning' => $this->getAlertWarning(),
             '_danger' => $this->getAlertDanger(),
-            'reservation_count' => Reservation::all()->count(),
+            //'reservation_count' => Reservation::all()->count(),
         );
 
         $params = array_merge($base, $params);
