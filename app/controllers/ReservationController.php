@@ -94,6 +94,9 @@ class ReservationController extends BaseController
                 'last_name' => Input::get('last_name'),
             ));
 
+            var_dump($reservation->id);
+            exit;
+
             Checkin::create(array(
                 'reservation_id' => $reservation->id,
             ));
