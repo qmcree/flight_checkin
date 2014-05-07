@@ -114,7 +114,7 @@ class ReservationController extends BaseController
 
     public function showEditForm($id)
     {
-        $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
+        $reservation = Reservation::find($id)->with('checkinNotice', 'flight.timezone')->first();
         $timezones = Timezone::all();
 
         return $this->makeView('reservation.edit', array(
@@ -128,7 +128,7 @@ class ReservationController extends BaseController
         $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
-            $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
+            $reservation = Reservation::find($id)->with('checkinNotice', 'flight.timezone')->first();
 
             $reservation->flight->date = Input::get('date');
             $reservation->confirmation_number = Input::get('confirmation_number');
