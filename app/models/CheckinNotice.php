@@ -1,6 +1,6 @@
 <?php
 
-class Checkin extends Eloquent
+class CheckinNotice extends Eloquent
 {
     public $timestamps = false;
     protected $primaryKey = 'reservation_id';

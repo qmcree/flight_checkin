@@ -14,6 +14,15 @@ class Reservation extends Eloquent
     }
 
     /**
+     * Defines checkin relation.
+     * @return mixed
+     */
+    public function checkinNotice()
+    {
+        return $this->hasOne('CheckinNotice');
+    }
+
+    /**
      * Defines inverse flight relation.
      * @return mixed
      */

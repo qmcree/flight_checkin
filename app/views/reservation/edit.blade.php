@@ -25,7 +25,7 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" name="email" id="email" value="{{{ $reservation->checkin->passenger_email }}}" />
+            <input type="email" class="form-control" name="email" id="email" value="{{{ $reservation->checkinNotice->email }}}" />
             <p class="help-block">We'll shoot you an email right after we check you in.</p>
         </div>
         <div class="form-group">

@@ -58,21 +58,31 @@ class DatabaseSeeder extends Seeder {
 
         Checkin::create(array(
             'reservation_id' => 1,
-            'passenger_email' => 'develgeek@gmail.com',
             'checked_in' => 0,
             'attempts' => 2,
         ));
         Checkin::create(array(
             'reservation_id' => 2,
-            'passenger_email' => 'foobar@localhost',
             'checked_in' => 0,
             'attempts' => 10,
         ));
         Checkin::create(array(
-            'reservation_id' => 1,
-            'passenger_email' => 'baztest@localhost',
+            'reservation_id' => 3,
             'checked_in' => 1,
             'attempts' => 1,
+        ));
+
+        CheckinNotice::create(array(
+            'reservation_id' => 1,
+            'email' => 'develgeek@gmail.com',
+        ));
+        CheckinNotice::create(array(
+            'reservation_id' => 2,
+            'email' => 'foobar@localhost',
+        ));
+        CheckinNotice::create(array(
+            'reservation_id' => 3,
+            'email' => 'baztest@localhost',
         ));
 
         $this->command->info('All tables seeded!');

@@ -2,6 +2,7 @@
 
 class CheckinController extends BaseController
 {
+    const ATTEMPT_MAX = 10;
     const AIRLINE_SOUTHWEST = 'Southwest Airlines';
     const AIRLINE_SOUTHWEST_SESSION_COOKIE = 'JSESSIONID';
     const AIRLINE_SOUTHWEST_ERROR_NEEDLE = 'id="errors"';
@@ -14,57 +15,70 @@ class CheckinController extends BaseController
      */
     public static function attempt($flight)
     {
-        $flight->reservation->checkin->attempts++;
-        $flight->reservation->checkin->save();
+        if ($flight->reservation->checkin->attempts < self::ATTEMPT_MAX) {
+            $flight->reservation->checkin->attempts++;
+            $flight->reservation->checkin->save();
 
-        // make first request.
-        $request1 = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
-        curl_setopt_array($request1, array(
-            CURLOPT_COOKIESESSION => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_MAXREDIRS => 3,
-            CURLOPT_POST => true,
-            CURLOPT_HEADER => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 20,
-            CURLOPT_REFERER => 'https://www.southwest.com/flight/',
-            CURLOPT_USERAGENT => self::USER_AGENT,
-            CURLOPT_POSTFIELDS => sprintf('confirmationNumber=%s&firstName=%s&lastName=%s&submitButton=Check+In', $flight->reservation->confirmation_number,
-                $flight->reservation->first_name, $flight->reservation->last_name),
-        ));
-        $response1 = curl_exec($request1);
-        curl_close($request1);
-
-        // check if SWA error occurred.
-        if (strpos($response1, self::AIRLINE_SOUTHWEST_ERROR_NEEDLE) !== false) {
-            return false;
-        } else {
-            // make second request, persisting session ID cookie.
-            $sessionId = self::getSessionId($response1);
-
-            $request2 = curl_init('https://www.southwest.com/flight/selectPrintDocument.html');
-            curl_setopt_array($request2, array(
+            // make first request.
+            $request1 = curl_init('http://www.southwest.com/flight/retrieveCheckinDoc.html');
+            curl_setopt_array($request1, array(
                 CURLOPT_COOKIESESSION => true,
-                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_MAXREDIRS => 3,
                 CURLOPT_POST => true,
                 CURLOPT_HEADER => true,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_CONNECTTIMEOUT => 20,
-                CURLOPT_REFERER => 'http://www.southwest.com/flight/retrieveCheckinDoc.html',
+                CURLOPT_REFERER => 'https://www.southwest.com/flight/',
                 CURLOPT_USERAGENT => self::USER_AGENT,
-                CURLOPT_POSTFIELDS => 'checkinPassengers[0].selected=true&printDocuments=Check+In',
-                CURLOPT_COOKIE => self::AIRLINE_SOUTHWEST_SESSION_COOKIE . '=' . $sessionId,
+                CURLOPT_POSTFIELDS => sprintf('confirmationNumber=%s&firstName=%s&lastName=%s&submitButton=Check+In', $flight->reservation->confirmation_number,
+                    $flight->reservation->first_name, $flight->reservation->last_name),
             ));
-            $response2 = curl_exec($request2);
+            $response1 = curl_exec($request1);
+            curl_close($request1);
 
-            // SWA error occurred if tries to redirect.
-            if (self::triesRedirect($response2))
+            // check if SWA error occurred.
+            if (strpos($response1, self::AIRLINE_SOUTHWEST_ERROR_NEEDLE) !== false) {
                 return false;
+            } else {
+                // make second request, persisting session ID cookie.
+                $sessionId = self::getSessionId($response1);
 
-            curl_close($request2);
+                $request2 = curl_init('https://www.southwest.com/flight/selectPrintDocument.html');
+                curl_setopt_array($request2, array(
+                    CURLOPT_COOKIESESSION => true,
+                    CURLOPT_FOLLOWLOCATION => false,
+                    CURLOPT_POST => true,
+                    CURLOPT_HEADER => true,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_CONNECTTIMEOUT => 20,
+                    CURLOPT_REFERER => 'http://www.southwest.com/flight/retrieveCheckinDoc.html',
+                    CURLOPT_USERAGENT => self::USER_AGENT,
+                    CURLOPT_POSTFIELDS => 'checkinPassengers[0].selected=true&printDocuments=Check+In',
+                    CURLOPT_COOKIE => self::AIRLINE_SOUTHWEST_SESSION_COOKIE . '=' . $sessionId,
+                ));
+                $response2 = curl_exec($request2);
 
-            return true;
+                // SWA error occurred if tries to redirect.
+                if (self::triesRedirect($response2))
+                    return false;
+
+                curl_close($request2);
+
+                return true;
+            }
+        } else {
+            // @todo check if user notified and if not, call self::notifyFail.
+            return false;
         }
+    }
+
+    /**
+     * Notifies passenger by email that max no. of attempts reached.
+     */
+    protected static function notifyFail()
+    {
+
     }
 
     /**

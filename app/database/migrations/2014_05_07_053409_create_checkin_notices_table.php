@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCheckinsTable extends Migration {
+class CreateCheckinNoticesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,13 @@ class CreateCheckinsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('checkins', function($table) {
+		Schema::create('checkin_notices', function($table) {
             $table->integer('reservation_id')->unsigned();
-            $table->tinyInteger('checked_in')->unsigned()->default(0);
-            $table->tinyInteger('attempts')->unsigned()->default(0);
+            $table->string('email', 30);
+            $table->timestamp('notified_at')->nullable();
         });
 
-        Schema::table('checkins', function($table) {
+        Schema::table('checkin_notices', function($table) {
             $table->foreign('reservation_id')->references('id')->on('reservations');
         });
 	}
@@ -30,7 +30,7 @@ class CreateCheckinsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('checkins');
+		Schema::drop('checkin_notices');
 	}
 
 }

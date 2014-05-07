@@ -87,11 +87,20 @@ class ReservationController extends BaseController
                 'timezone_id' => Input::get('timezone_id'),
             ));
 
-            Reservation::create(array(
+            $reservation = Reservation::create(array(
                 'flight_id' => $flight->id,
                 'confirmation_number' => Input::get('confirmation_number'),
                 'first_name' => Input::get('first_name'),
                 'last_name' => Input::get('last_name'),
+            ));
+
+            Checkin::create(array(
+                'reservation_id' => $reservation->id,
+            ));
+
+            CheckinNotice::create(array(
+                'reservation_id' => $reservation->id,
+                'email' => Input::get('email'),
             ));
 
             $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
@@ -105,9 +114,6 @@ class ReservationController extends BaseController
 
     public function showEditForm($id)
     {
-        $this->setAlertInfo('Testy info right hur!');
-        $this->setAlertWarning('Boo yah! This be a warning!');
-
         $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
         $timezones = Timezone::all();
 
@@ -128,7 +134,7 @@ class ReservationController extends BaseController
             $reservation->confirmation_number = Input::get('confirmation_number');
             $reservation->first_name = Input::get('first_name');
             $reservation->last_name = Input::get('last_name');
-            $reservation->checkin->passenger_email = Input::get('email');
+            $reservation->checkinNotice->email = Input::get('email');
             $reservation->flight->timezone_id = Input::get('timezone_id');
 
             $reservation->save();
