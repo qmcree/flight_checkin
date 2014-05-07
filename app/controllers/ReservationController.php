@@ -105,6 +105,9 @@ class ReservationController extends BaseController
 
     public function showEditForm($id)
     {
+        $this->setAlertInfo('Testy info right hur!');
+        $this->setAlertWarning('Boo yah! This be a warning!');
+
         $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
         $timezones = Timezone::all();
 
