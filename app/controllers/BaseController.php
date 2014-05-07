@@ -14,19 +14,9 @@ class BaseController extends Controller {
         $this->alert['success'] = $alert;
     }
 
-    public function getAlertSuccess()
-    {
-        return $this->alert['success'];
-    }
-
     protected function setAlertInfo($alert)
     {
         $this->alert['info'] = $alert;
-    }
-
-    public function getAlertInfo()
-    {
-        return $this->alert['info'];
     }
 
     protected function setAlertWarning($alert)
@@ -34,19 +24,50 @@ class BaseController extends Controller {
         $this->alert['warning'] = $alert;
     }
 
-    public function getAlertWarning()
-    {
-        return $this->alert['warning'];
-    }
-
     protected function setAlertDanger($alert)
     {
         $this->alert['danger'] = $alert;
     }
 
-    public function getAlertDanger()
+    private function getAlertSuccess()
+    {
+        return $this->alert['success'];
+    }
+
+    private function getAlertInfo()
+    {
+        return $this->alert['info'];
+    }
+
+    private function getAlertWarning()
+    {
+        return $this->alert['warning'];
+    }
+
+    private function getAlertDanger()
     {
         return $this->alert['danger'];
+    }
+
+    /**
+     * Makes specified view.
+     * @param string $name Name of the view.
+     * @param array [$params] Additional params to pass to the view.
+     * @return View
+     */
+    public function makeView($name, $params = array())
+    {
+        $base = array(
+            '_success' => $this->getAlertSuccess(),
+            '_info' => $this->getAlertInfo(),
+            '_warning' => $this->getAlertWarning(),
+            '_danger' => $this->getAlertDanger(),
+            'reservation_count' => Reservation::all()->count(),
+        );
+
+        $params = array_merge($base, $params);
+
+        return View::make($name, $params);
     }
 
     /**

@@ -22,10 +22,7 @@ class ReservationController extends BaseController
 
     protected function showLookupForm()
     {
-        return View::make('reservation.lookup')->with(array(
-            '_success' => $this->getAlertSuccess(),
-            '_danger' => $this->getAlertDanger(),
-        ));
+        return $this->makeView('reservation.lookup');
     }
 
     /**
@@ -75,11 +72,7 @@ class ReservationController extends BaseController
     {
         $timezones = Timezone::all();
 
-        return View::make('reservation.create')->with(array(
-            '_success' => $this->getAlertSuccess(),
-            '_danger' => $this->getAlertDanger(),
-            'timezones' => $timezones,
-        ));
+        return $this->makeView('reservation.create', array( 'timezones' => $timezones, ));
     }
 
     public function create()
@@ -115,9 +108,7 @@ class ReservationController extends BaseController
         $reservation = Reservation::find($id)->with('checkin', 'flight.timezone')->first();
         $timezones = Timezone::all();
 
-        return View::make('reservation.edit')->with(array(
-            '_success' => $this->getAlertSuccess(),
-            '_danger' => $this->getAlertDanger(),
+        return $this->makeView('reservation.edit', array(
             'timezones' => $timezones,
             'reservation' => $reservation,
         ));
