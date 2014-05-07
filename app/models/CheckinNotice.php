@@ -3,7 +3,7 @@
 class CheckinNotice extends Eloquent
 {
     public $timestamps = false;
-    protected $primaryKey = 'reservation_id', $fillable = array('*');
+    protected $primaryKey = 'reservation_id', $fillable = array('reservation_id', 'email', 'notified_at');
 
     /**
      * Defines inverse reservation relation.
