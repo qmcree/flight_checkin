@@ -128,8 +128,6 @@ class ReservationController extends BaseController
 
         // convert stored UTC date to local date in timezone.
         $localDate = DateUtil::getLocalDate($reservation->flight->timezone->name, $reservation->flight->date);
-        echo $localDate;
-        exit;
 
         return $this->makeView('reservation.edit', array(
             'timezones' => $timezones,

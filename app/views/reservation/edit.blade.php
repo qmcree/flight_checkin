@@ -3,7 +3,7 @@
 @section('content')
     <form method="post" action="{{ action('ReservationController@edit', array('id' => Session::get('reservation_id'))) }}">
         <div class="form-group">
-            <label for="date">Date</label>
+            <label for="php date">Date</label>
 
             <div class="input-group">
                 <input type="text" class="form-control datetime" name="date" id="date" value="{{{ $local_date }}}" />
