@@ -123,7 +123,7 @@ class ReservationController extends BaseController
 
     public function showEditForm($id)
     {
-        $reservation = Reservation::find($id)->with('checkinNotice', 'flight.timezone')->first();
+        $reservation = Reservation::with('checkinNotice', 'flight.timezone')->find($id);
         $timezones = Timezone::all();
 
         // convert stored UTC date to local date in timezone.
@@ -143,7 +143,7 @@ class ReservationController extends BaseController
         if ($validator->passes()) {
             $utcDate = DateUtil::getUtcDateByTimezoneId(Input::get('timezone_id'), Input::get('date'));
 
-            $reservation = Reservation::find($id)->with('checkinNotice', 'flight.timezone')->first();
+            $reservation = Reservation::with('checkinNotice', 'flight.timezone')->find($id);
 
             $reservation->flight->date = $utcDate;
             $reservation->confirmation_number = Input::get('confirmation_number');
