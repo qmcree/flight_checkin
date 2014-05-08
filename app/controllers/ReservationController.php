@@ -4,6 +4,7 @@ class ReservationController extends BaseController
 {
     const ALERT_DANGER_LOOKUP = "I can't find a reservation matching those details.";
     const ALERT_SUCCESS_CREATE = "We will automatically check you in at the earliest possible time so you can board early!";
+    const ALERT_DANGER_PAST = "Reservations cannot be in the past.";
     const ALERT_SUCCESS_EDIT = "Your reservation has been updated.";
 
     protected $validatorRules;
@@ -80,7 +81,14 @@ class ReservationController extends BaseController
         $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
-            $utcDate = self::getUtcDate(Input::get('timezone_id'), Input::get('date'));
+            $timezone = Timezone::find(Input::get('timezone_id'));
+            $utcDate = self::getUtcDate($timezone->name, Input::get('date'));
+
+            // disallow past dates.
+            if (self::hasPassed($utcDate)) {
+                $this->setAlertDanger(self::ALERT_DANGER_PAST);
+                return $this->showCreateForm();
+            }
 
             $flight = Flight::create(array(
                 'date' => $utcDate,
