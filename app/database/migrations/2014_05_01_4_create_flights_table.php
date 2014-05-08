@@ -12,9 +12,11 @@ class CreateFlightsTable extends Migration {
 	 */
 	public function up()
 	{
+        // date is stored in UTC.
+        // timezone_id is used to (1) convert local date to UTC when being saved and (2) convert stored UTC date to local date for UI.
 		Schema::create('flights', function($table) {
             $table->increments('id');
-            $table->dateTime('date'); // @todo add note that this is stored in UTC.
+            $table->dateTime('date');
             $table->integer('timezone_id')->unsigned();
         });
 

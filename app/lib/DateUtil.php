@@ -14,8 +14,7 @@ class DateUtil
      */
     public static function getUtcDate($timezoneName, $localDate)
     {
-        $timezone = new \DateTimeZone($timezoneName);
-        $dateTime = new \DateTime($localDate, $timezone);
+        $dateTime = new \DateTime($localDate, new \DateTimeZone($timezoneName));
 
         return gmdate(self::DATE_FORMAT_MYSQL, $dateTime->getTimestamp());
     }

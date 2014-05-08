@@ -1,5 +1,7 @@
 <?php
 
+use FlightCheckin\util\DateUtil;
+
 class Flight extends Eloquent
 {
     public $timestamps = false;
@@ -13,12 +15,12 @@ class Flight extends Eloquent
     public function scopeUpcoming($query)
     {
         $utc = new DateTimeZone('UTC');
-        $format = 'Y-m-d H:i:s';
+
         $now = new DateTime('now', $utc);
         $tomorrow = new DateTime('now + 1 day', $utc);
 
-        return $query->where('date', '>', $now->format($format))
-            ->where('date', '<', $tomorrow->format($format));
+        return $query->where('date', '>', $now->format(DateUtil::DATE_FORMAT_MYSQL))
+            ->where('date', '<', $tomorrow->format(DateUtil::DATE_FORMAT_MYSQL));
     }
 
     /**
