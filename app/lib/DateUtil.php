@@ -4,6 +4,8 @@ namespace FlightCheckin\util;
 
 class DateUtil 
 {
+    const DATE_FORMAT_MYSQL = 'Y-m-d H:i:s';
+
     /**
      * Converts date, timezone pair to UTC date.
      * @param string $timezoneName
@@ -15,7 +17,7 @@ class DateUtil
         $timezone = new \DateTimeZone($timezoneName);
         $dateTime = new \DateTime($localDate, $timezone);
 
-        return gmdate('Y-m-d H:i:s', $dateTime->getTimestamp());
+        return gmdate(self::DATE_FORMAT_MYSQL, $dateTime->getTimestamp());
     }
 
     /**
@@ -38,10 +40,10 @@ class DateUtil
      */
     public static function getLocalDate($timezoneName, $utcDate)
     {
-        $utc = new \DateTimeZone('UTC');
-        $dateTime = new \DateTime($utcDate, $utc);
+        $dateTime = new \DateTime($utcDate, new \DateTimeZone('UTC'));
+        $dateTime->setTimezone(new \DateTimeZone($timezoneName));
 
-        // @todo
+        return $dateTime->format(self::DATE_FORMAT_MYSQL);
     }
 
     /**
@@ -52,8 +54,7 @@ class DateUtil
      */
     public static function getTime($timezoneName, $localDate)
     {
-        $timezone = new \DateTimeZone($timezoneName);
-        $dateTime = new \DateTime($localDate, $timezone);
+        $dateTime = new \DateTime($localDate, new \DateTimeZone($timezoneName));
 
         return $dateTime->getTimestamp();
     }
