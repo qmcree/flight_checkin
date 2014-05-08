@@ -26,7 +26,7 @@ class DateUtil
      */
     public static function getUtcDateByTimezoneId($timezoneId, $localDate)
     {
-        $timezone = Timezone::find($timezoneId);
+        $timezone = \Timezone::find($timezoneId);
         return self::getUtcDate($timezone->name, $localDate);
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+use FlightCheckin\util\DateUtil;
+
 class ReservationController extends BaseController
 {
     const ALERT_DANGER_LOOKUP = "I can't find a reservation matching those details.";
@@ -81,10 +83,10 @@ class ReservationController extends BaseController
         $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
-            $utcDate = FlightCheckin\util\DateUtil::getUtcDateByTimezoneId(Input::get('timezone_id'), Input::get('date'));
+            $utcDate = DateUtil::getUtcDateByTimezoneId(Input::get('timezone_id'), Input::get('date'));
 
             // disallow past dates.
-            if (FlightCheckin\util\DateUtil::hasPassed($utcDate)) {
+            if (DateUtil::hasPassed($utcDate)) {
                 $this->setAlertDanger(self::ALERT_DANGER_PAST);
                 return $this->showCreateForm();
             }
@@ -125,7 +127,7 @@ class ReservationController extends BaseController
         $timezones = Timezone::all();
 
         // convert stored UTC date to local date in timezone.
-        $localDate = FlightCheckin\util\DateUtil::getLocalDate($reservation->flight->timezone->name, $reservation->flight->date);
+        $localDate = DateUtil::getLocalDate($reservation->flight->timezone->name, $reservation->flight->date);
 
         return $this->makeView('reservation.edit', array(
             'timezones' => $timezones,
@@ -139,7 +141,7 @@ class ReservationController extends BaseController
         $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
-            $utcDate = FlightCheckin\util\DateUtil::getUtcDateByTimezoneId(Input::get('timezone_id'), Input::get('date'));
+            $utcDate = DateUtil::getUtcDateByTimezoneId(Input::get('timezone_id'), Input::get('date'));
 
             $reservation = Reservation::with('checkinNotice', 'flight.timezone')->find($id);
 
