@@ -123,9 +123,6 @@ class ReservationController extends BaseController
 
     public function showEditForm($id)
     {
-        echo $id;
-        exit;
-
         $reservation = Reservation::find($id)->with('checkinNotice', 'flight.timezone')->first();
         $timezones = Timezone::all();
 
