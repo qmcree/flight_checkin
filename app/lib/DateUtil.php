@@ -43,7 +43,8 @@ class DateUtil
         $dateTime = new \DateTime($utcDate, new \DateTimeZone('UTC'));
         $dateTime->setTimezone(new \DateTimeZone($timezoneName));
 
-        return $dateTime->format(self::DATE_FORMAT_MYSQL);
+        return '0000-00-00 00:00:00';
+        //return $dateTime->format(self::DATE_FORMAT_MYSQL);
     }
 
     /**
