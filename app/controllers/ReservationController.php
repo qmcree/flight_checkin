@@ -1,5 +1,7 @@
 <?php
 
+use FlightCheckin\util\DateUtil;
+
 class ReservationController extends BaseController
 {
     const ALERT_DANGER_LOOKUP = "I can't find a reservation matching those details.";
@@ -81,11 +83,10 @@ class ReservationController extends BaseController
         $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
-            $timezone = Timezone::find(Input::get('timezone_id'));
-            $utcDate = self::getUtcDate($timezone->name, Input::get('date'));
+            $utcDate = DateUtil::getUtcDateByTimezoneId(Input::get('timezone_id'), Input::get('date'));
 
             // disallow past dates.
-            if (self::hasPassed($utcDate)) {
+            if (DateUtil::hasPassed($utcDate)) {
                 $this->setAlertDanger(self::ALERT_DANGER_PAST);
                 return $this->showCreateForm();
             }
@@ -122,12 +123,19 @@ class ReservationController extends BaseController
 
     public function showEditForm($id)
     {
+        echo $id;
+        exit;
+
         $reservation = Reservation::find($id)->with('checkinNotice', 'flight.timezone')->first();
         $timezones = Timezone::all();
+
+        // convert stored UTC date to local date in timezone.
+        $localDate = DateUtil::getLocalDate($reservation->flight->timezone->name, $reservation->flight->date);
 
         return $this->makeView('reservation.edit', array(
             'timezones' => $timezones,
             'reservation' => $reservation,
+            'local_date' => $localDate,
         ));
     }
 
@@ -136,9 +144,11 @@ class ReservationController extends BaseController
         $validator = Validator::make(Input::all(), $this->validatorRules);
 
         if ($validator->passes()) {
+            $utcDate = DateUtil::getUtcDateByTimezoneId(Input::get('timezone_id'), Input::get('date'));
+
             $reservation = Reservation::find($id)->with('checkinNotice', 'flight.timezone')->first();
 
-            $reservation->flight->date = Input::get('date');
+            $reservation->flight->date = $utcDate;
             $reservation->confirmation_number = Input::get('confirmation_number');
             $reservation->first_name = Input::get('first_name');
             $reservation->last_name = Input::get('last_name');

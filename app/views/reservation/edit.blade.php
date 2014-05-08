@@ -6,7 +6,7 @@
             <label for="date">Date</label>
 
             <div class="input-group">
-                <input type="text" class="form-control datetime" name="date" id="date" value="{{{ $reservation->flight->date }}}" />
+                <input type="text" class="form-control datetime" name="date" id="date" value="{{{ $local_date }}}" />
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
         </div>

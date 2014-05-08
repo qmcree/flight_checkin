@@ -14,7 +14,7 @@ class CreateFlightsTable extends Migration {
 	{
 		Schema::create('flights', function($table) {
             $table->increments('id');
-            $table->dateTime('date');
+            $table->dateTime('date'); // @todo add note that this is stored in UTC.
             $table->integer('timezone_id')->unsigned();
         });
 

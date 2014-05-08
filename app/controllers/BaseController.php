@@ -86,44 +86,6 @@ class BaseController extends Controller {
         return $html;
     }
 
-    /**
-     * Converts date, timezone pair to UTC date.
-     * @param string $timezoneName
-     * @param string $date
-     * @return string
-     */
-    protected static function getUtcDate($timezoneName, $date)
-    {
-        $timezone = new DateTimeZone($timezoneName);
-        $dateTime = new DateTime($date, $timezone);
-
-        return gmdate('Y-m-d H:i:s', $dateTime->getTimestamp());
-    }
-
-    /**
-     * Converts date, timezone pair to time.
-     * @param string $timezoneName
-     * @param string $date
-     * @return integer UNIX timestamp.
-     */
-    protected static function getTime($timezoneName, $date)
-    {
-        $timezone = new DateTimeZone($timezoneName);
-        $dateTime = new DateTime($date, $timezone);
-
-        return $dateTime->getTimestamp();
-    }
-
-    /**
-     * Determines if UTC date is in past.
-     * @param string $date in UTC
-     * @return boolean
-     */
-    protected static function hasPassed($date)
-    {
-        return (self::getTime('UTC', $date) <= time());
-    }
-
 	/**
 	 * Setup the layout used by the controller.
 	 *
