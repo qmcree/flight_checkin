@@ -5,7 +5,7 @@ use FlightCheckin\util\DateUtil;
 class Flight extends Eloquent
 {
     public $timestamps = false;
-    protected $guarded = array('id');
+    protected $primaryKey = 'reservation_id', $guarded = array('id');
 
     /**
      * Defines query scope that finds flights within the next 24 hours.
@@ -38,6 +38,6 @@ class Flight extends Eloquent
      */
     public function reservation()
     {
-        return $this->hasOne('Reservation');
+        return $this->belongsTo('Reservation');
     }
 } 

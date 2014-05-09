@@ -98,16 +98,16 @@ class ReservationController extends BaseController
                 return $this->showCreateForm();
             }
 
-            $flight = Flight::create(array(
-                'date' => $utcDate,
-                'timezone_id' => Input::get('timezone_id'),
-            ));
-
             $reservation = Reservation::create(array(
-                'flight_id' => $flight->id,
                 'confirmation_number' => Input::get('confirmation_number'),
                 'first_name' => Input::get('first_name'),
                 'last_name' => Input::get('last_name'),
+            ));
+
+            Flight::create(array(
+                'reservation_id' => $reservation->id,
+                'date' => $utcDate,
+                'timezone_id' => Input::get('timezone_id'),
             ));
 
             Checkin::create(array(
@@ -184,6 +184,9 @@ class ReservationController extends BaseController
 
     public function delete($id)
     {
-
+        Checkin::where('reservation_id', '=', $id)->delete();
+        CheckinNotice::where('reservation_id', '=', $id)->delete();
+        Flight::where('reservation_id', '=', $id)->delete();
+        Reservation::where('id', '=', $id)->delete();
     }
 } 

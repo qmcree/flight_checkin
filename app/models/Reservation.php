@@ -28,6 +28,6 @@ class Reservation extends Eloquent
      */
     public function flight()
     {
-        return $this->belongsTo('Flight');
+        return $this->hasOne('Flight');
     }
 } 

@@ -24,36 +24,36 @@ class DatabaseSeeder extends Seeder {
         Timezone::create(array( 'name' => 'Pacific/Honolulu', ));
 
         // Dates will be converted to UTC (based timezone offset) and inserted. When retrieved, they will be converted back (based on timezone offset).
-        Flight::create(array(
-            'date' => '2014-05-02 13:30:00',
-            'timezone_id' => 1,
-        ));
-        Flight::create(array(
-            'date' => '2014-05-02 17:30:00',
-            'timezone_id' => 2,
-        ));
-        Flight::create(array(
-            'date' => '2014-05-02 20:15:00',
-            'timezone_id' => 3,
-        ));
-
         Reservation::create(array(
-            'flight_id' => 1,
             'confirmation_number' => 'A1B2C3',
             'first_name' => 'Quentin',
             'last_name' => 'McRee',
         ));
         Reservation::create(array(
-            'flight_id' => 2,
             'confirmation_number' => 'F9A8B7',
             'first_name' => 'Laura',
             'last_name' => 'Blocker',
         ));
         Reservation::create(array(
-            'flight_id' => 3,
             'confirmation_number' => 'D1A3B0',
             'first_name' => 'Ryan',
             'last_name' => 'Rumfelt',
+        ));
+
+        Flight::create(array(
+            'reservation_id' => 1,
+            'date' => '2014-05-02 13:30:00',
+            'timezone_id' => 1,
+        ));
+        Flight::create(array(
+            'reservation_id' => 2,
+            'date' => '2014-05-02 17:30:00',
+            'timezone_id' => 2,
+        ));
+        Flight::create(array(
+            'reservation_id' => 3,
+            'date' => '2014-05-02 20:15:00',
+            'timezone_id' => 3,
         ));
 
         Checkin::create(array(
