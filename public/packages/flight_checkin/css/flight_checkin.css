@@ -9,7 +9,7 @@
 }
 
 .navbar-brand {
-    color: #333;
+    color: #333 !important;
 }
 
 #content {
