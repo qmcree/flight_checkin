@@ -18,8 +18,17 @@
     border-bottom-right-radius: 6px;
 }
 
-#navbar-top, #content {
+#navbar-top, #content, #navbar-bottom {
     background-color: rgba(255, 235, 199, 0.64);
+}
+
+#navbar-bottom {
+    min-height: 0;
+}
+
+#navbar-bottom p {
+    text-align: center;
+    margin: 5px;
 }
 
 .form-control {

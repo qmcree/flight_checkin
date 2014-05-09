@@ -81,9 +81,9 @@
 </div>
 
 @section('navbar-bottom')
-<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+<nav id="navbar-bottom" class="navbar navbar-default navbar-fixed-bottom" role="navigation">
     <div class="container">
-        <p class="navbar-text"><small>Made with &heartsuit; by Quentin McRee. &copy; 2014</small></p>
+        <p class="navbar-text"><small>Made with &heartsuit; by <a href="http://www.qmcree.com/" target="_blank">Quentin McRee</a>. &copy; 2014</small></p>
     </div>
 </nav>
 @show
