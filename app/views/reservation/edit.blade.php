@@ -41,7 +41,7 @@
             <p class="help-block">What's the timezone of the airport you'll be departing from?
                 <a href="/packages/flight_checkin/images/timezone_map.gif" target="_blank">I dunno.</a></p>
         </div>
-        <a href="#" class="delete" data-type="reservation">
+        <a href="{{ action('ReservationController@delete', array( 'id' => Session::get('reservation_id'))) }}" class="delete" data-type="reservation">
             <button type="button" class="btn btn-danger pull-right">Delete</button>
         </a>
         <button type="submit" class="btn btn-primary">Save</button>
