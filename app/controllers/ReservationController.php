@@ -188,5 +188,9 @@ class ReservationController extends BaseController
         CheckinNotice::where('reservation_id', '=', $id)->delete();
         Flight::where('reservation_id', '=', $id)->delete();
         Reservation::where('id', '=', $id)->delete();
+
+        Session::forget('reservation_id');
+
+        return Redirect::action('ReservationController@showCreateForm');
     }
 } 
