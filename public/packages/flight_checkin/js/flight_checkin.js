@@ -1,4 +1,6 @@
 jQuery(document).ready(function() {
+    jQuery.backstretch('/packages/flight_checkin/images/bg-airplane.jpg');
+
     jQuery('input.datetime').datetimepicker({
         format: 'yyyy-mm-dd hh:ii:ss',
         autoclose: true,

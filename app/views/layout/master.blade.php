@@ -85,6 +85,7 @@
 <script src="/packages/underscore/js/underscore-min.js"></script>
 <script src="/packages/bootstrap/js/bootstrap.min.js"></script>
 <script src="/packages/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/packages/jquery-backstretch/jquery.backstretch.min.js"></script>
 <script src="/packages/flight_checkin/js/flight_checkin.js"></script>
 </body>
 </html>
