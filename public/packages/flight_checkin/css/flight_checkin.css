@@ -2,6 +2,20 @@
     width: 700px;
 }
 
+#navbar-top {
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+#content {
+    padding-top: 20px;
+}
+
+#navbar-top, #content {
+    background-color: rgba(255, 235, 199, 0.64);
+}
+
 #nav-main {
     margin-bottom: 20px;
 }

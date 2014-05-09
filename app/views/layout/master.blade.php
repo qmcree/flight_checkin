@@ -38,7 +38,7 @@
 </nav>
 @show
 
-<div class="container">
+<div id="content" class="container">
     @if (isset($_success) && !is_null($_success))
     <div class="alert alert-success">
         {{ $_success }}
