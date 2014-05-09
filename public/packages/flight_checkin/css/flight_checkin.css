@@ -24,11 +24,13 @@
 
 #navbar-bottom {
     min-height: 0;
+    border: 0;
 }
 
 #navbar-bottom p {
     text-align: center;
-    margin: 5px;
+    margin: 3px;
+    float: none;
 }
 
 .form-control {
