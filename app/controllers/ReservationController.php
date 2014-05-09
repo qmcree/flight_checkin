@@ -7,7 +7,7 @@ class ReservationController extends BaseController
     const ALERT_DANGER_LOOKUP = "I can't find a reservation matching those details.";
     const ALERT_SUCCESS_CREATE = "We will automatically check you in at the earliest possible time so you can board early!";
     const ALERT_DANGER_PAST = "Reservations cannot be in the past.";
-    const ALERT_DANGER_DUPLICATE = "Looks like there's already a reservation with that confirmation number. <a href='/lookup'>Wanna update it?</a>";
+    const ALERT_DANGER_DUPLICATE = "Looks like there's already a reservation with that confirmation number.";
     const ALERT_SUCCESS_EDIT = "Your reservation has been updated.";
 
     protected $validatorRules;
