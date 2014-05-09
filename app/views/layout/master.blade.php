@@ -21,7 +21,7 @@
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
-@section('navbar')
+@section('navbar-top')
 <nav id="navbar-top" class="navbar navbar-default" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -79,6 +79,14 @@
 
     @yield('content')
 </div>
+
+@section('navbar-bottom')
+<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+    <div class="container">
+        <p class="navbar-text"><small>Made with &heartsuit; by Quentin McRee. &copy; 2014</small></p>
+    </div>
+</nav>
+@show
 
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
 <script src="/packages/jquery/js/jquery.min.js"></script>
