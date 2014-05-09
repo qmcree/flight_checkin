@@ -9,7 +9,9 @@
 }
 
 #content {
-    padding-top: 20px;
+    padding: 20px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 #navbar-top, #content {
