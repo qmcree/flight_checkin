@@ -122,6 +122,7 @@ class ReservationController extends BaseController
             Mail::send('email.create_success', array(
                 'reservation' => $reservation,
                 'flight' => $flight,
+                'local_date' => Input::get('date'),
             ), function($email) {
                 $name = Input::get('first_name') . ' ' . Input::get('last_name');
                 $email->to(Input::get('email'), $name)->subject("You're all set.");
