@@ -41,7 +41,9 @@
             <p class="help-block">What's the timezone of the airport you'll be departing from?
                 <a href="/packages/flight_checkin/images/timezone_map.gif" target="_blank">I dunno.</a></p>
         </div>
-        <button type="button" class="btn btn-danger pull-right">Delete</button>
+        <button type="button" class="btn btn-danger pull-right">
+            <a href="#" class="delete" data-type="reservation">Delete</a>
+        </button>
         <button type="submit" class="btn btn-primary">Save</button>
         <button type="reset" class="btn btn-default">Reset</button>
     </form>
