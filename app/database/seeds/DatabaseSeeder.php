@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder {
         Timezone::create(array( 'name' => 'America/Adak', ));
         Timezone::create(array( 'name' => 'Pacific/Honolulu', ));
 
-        // Dates will be converted to UTC (based timezone offset) and inserted. When retrieved, they will be converted back (based on timezone offset).
         Reservation::create(array(
             'confirmation_number' => 'A1B2C3',
             'first_name' => 'Quentin',
