@@ -1,6 +1,7 @@
 <?php
 
-use FlightCheckin\ReservationLib, FlightCheckin\util\DateUtil;
+use FlightCheckin\ReservationLib;
+use FlightCheckin\util\DateUtil;
 
 class ReservationController extends BaseController
 {
