@@ -104,7 +104,7 @@ class ReservationController extends BaseController
                 'last_name' => Input::get('last_name'),
             ));
 
-            Flight::create(array(
+            $flight = Flight::create(array(
                 'reservation_id' => $reservation->id,
                 'date' => $utcDate,
                 'timezone_id' => Input::get('timezone_id'),
@@ -118,6 +118,14 @@ class ReservationController extends BaseController
                 'reservation_id' => $reservation->id,
                 'email' => Input::get('email'),
             ));
+
+            Mail::send('email.create.success', array(
+                'reservation' => $reservation,
+                'flight' => $flight,
+            ), function($email) {
+                $name = Input::get('first_name') . ' ' . Input::get('last_name');
+                $email->to(Input::get('email'), $name)->subject("You're all set.");
+            });
 
             $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
         } else {
