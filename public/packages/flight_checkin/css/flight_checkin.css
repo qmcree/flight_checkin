@@ -8,6 +8,10 @@
     margin-bottom: 0;
 }
 
+.navbar-brand {
+    color: #333;
+}
+
 #content {
     padding: 20px;
     border-bottom-left-radius: 6px;
