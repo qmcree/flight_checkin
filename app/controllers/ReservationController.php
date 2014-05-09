@@ -119,7 +119,7 @@ class ReservationController extends BaseController
                 'email' => Input::get('email'),
             ));
 
-            Mail::send('email.create.success', array(
+            Mail::send('email.create_success', array(
                 'reservation' => $reservation,
                 'flight' => $flight,
             ), function($email) {
