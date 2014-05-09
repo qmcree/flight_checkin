@@ -1,12 +1,13 @@
 <?php
 
-use FlightCheckin\util\DateUtil;
+use FlightCheckin\ReservationLib, FlightCheckin\util\DateUtil;
 
 class ReservationController extends BaseController
 {
     const ALERT_DANGER_LOOKUP = "I can't find a reservation matching those details.";
     const ALERT_SUCCESS_CREATE = "We will automatically check you in at the earliest possible time so you can board early!";
     const ALERT_DANGER_PAST = "Reservations cannot be in the past.";
+    const ALERT_DANGER_DUPLICATE = "Looks like there's already a reservation with that confirmation number. <a href='/lookup'>Wanna update it?</a>";
     const ALERT_SUCCESS_EDIT = "Your reservation has been updated.";
 
     protected $validatorRules;
@@ -91,6 +92,12 @@ class ReservationController extends BaseController
                 return $this->showCreateForm();
             }
 
+            // disallow duplicates.
+            if (ReservationLib::exists(Input::get('confirmation_number'))) {
+                $this->setAlertDanger(self::ALERT_DANGER_DUPLICATE);
+                return $this->showCreateForm();
+            }
+
             $flight = Flight::create(array(
                 'date' => $utcDate,
                 'timezone_id' => Input::get('timezone_id'),
@@ -142,6 +149,18 @@ class ReservationController extends BaseController
 
         if ($validator->passes()) {
             $utcDate = DateUtil::getUtcDateByTimezoneId(Input::get('timezone_id'), Input::get('date'));
+
+            // disallow past dates.
+            if (DateUtil::hasPassed($utcDate)) {
+                $this->setAlertDanger(self::ALERT_DANGER_PAST);
+                return $this->showEditForm($id);
+            }
+
+            // disallow duplicates.
+            if (ReservationLib::exists(Input::get('confirmation_number'))) {
+                $this->setAlertDanger(self::ALERT_DANGER_DUPLICATE);
+                return $this->showEditForm($id);
+            }
 
             $reservation = Reservation::with('checkinNotice', 'flight.timezone')->find($id);
 
