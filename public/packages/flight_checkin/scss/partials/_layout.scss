@@ -1,0 +1,46 @@
+body {
+  padding-bottom: 50px;
+}
+
+.container {
+  width: 700px;
+}
+
+#navbar-top {
+  border: 0;
+  margin-bottom: 0;
+  @include box-shadow(0 1px 10px -2px rgba(0,0,0,0.5));
+
+  .navbar-brand {
+    color: #333;
+  }
+}
+
+#content {
+  padding: 20px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+
+  #nav-main {
+    margin-bottom: 20px;
+  }
+}
+
+#navbar-bottom {
+  min-height: 0;
+  border: 0;
+
+  p {
+    text-align: center;
+    margin: 3px;
+    float: none;
+  }
+}
+
+#navbar-top, #content, #navbar-bottom {
+  background-color: rgba(255, 235, 199, 0.64);
+}
+
+#navbar-top, #navbar-bottom {
+  border-radius: 0;
+}

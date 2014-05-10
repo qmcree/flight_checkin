@@ -1,0 +1,24 @@
+.form-control {
+  background-color: rgba(255,255,255,0.8);
+}
+
+.alert {
+  &:before {
+    font-weight: 500;
+    font-size: 1.5em;
+  }
+
+  &.alert-success {
+    &:before {
+      content: "Great success!";
+      color: rgba(60, 118, 61, 0.4);
+    }
+  }
+
+  &.alert-danger {
+    &:before {
+      content: "Oh, snap!";
+      color: rgba(169, 68, 66, 0.4);
+    }
+  }
+}
