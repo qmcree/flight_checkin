@@ -2,7 +2,9 @@
 
 namespace FlightCheckin;
 
-class CheckinLib
+use FlightCheckin\util\DateUtil;
+
+class CheckinAction
 {
     const ATTEMPT_MAX = 10;
     const AIRLINE_NAME = 'Southwest Airlines';
@@ -11,6 +13,10 @@ class CheckinLib
     const REQUEST_URL_1 = 'http://www.southwest.com/flight/retrieveCheckinDoc.html';
     const REQUEST_URL_2 = 'https://www.southwest.com/flight/selectPrintDocument.html';
     const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36';
+    const NOTIFY_SUCCESS = 8;
+    const NOTIFY_MAX = 16;
+    const NOTIFY_SUCCESS_SUBJECT = "You're checked in!";
+    const NOTIFY_MAX_SUBJECT = "Unable to automate your checkin";
 
     protected $flight, $curlOptions, $sessionId;
 
@@ -33,25 +39,66 @@ class CheckinLib
     /**
      * Attempt to checkin.
      *
-     * @throws \Exception
+     * @throws CheckinActionException
      */
     public function attempt()
     {
         if ($this->beforeMax()) {
-            $this->addAttempt();
+            $this->increaseCount();
 
             $this->execRequest1();
             $this->execRequest2();
+
+            $this->notify(self::NOTIFY_SUCCESS);
         } else {
-            // @todo check if user notified and if not, call self::notifyFail.
-            throw new \Exception();
+            if (!$this->alreadyNotified()) {
+                $this->notify(self::NOTIFY_MAX);
+            }
+
+            throw new CheckinActionException('Already tried the max number of attempts.');
+        }
+    }
+
+    /**
+     * Notifies passenger by email and updates notified_at timestamp.
+     *
+     * @param integer $type Constant
+     * @throws CheckinActionException
+     */
+    protected function notify($type)
+    {
+        $data = array( 'flight' => $this->flight, );
+        $passengerEmail = $this->flight->reservation->checkinNotice->email;
+        $passengerName = $this->flight->reservation->first_name . ' ' . $this->flight->reservation->last_name;
+
+        switch ($this) {
+            case ($type == self::NOTIFY_SUCCESS):
+                $subject = self::NOTIFY_SUCCESS_SUBJECT;
+
+                \Mail::send('email.attempt_success', $data, function($email) use ($passengerEmail, $passengerName, $subject) {
+                    $email->to($passengerEmail, $passengerName)->subject($subject);
+                });
+
+                $this->setNotifiedTimestamp();
+                break;
+            case ($type == self::NOTIFY_MAX):
+                $subject = self::NOTIFY_MAX_SUBJECT;
+
+                \Mail::send('email.attempt_max', $data, function($email) use ($passengerEmail, $passengerName, $subject) {
+                    $email->to($passengerEmail, $passengerName)->subject($subject);
+                });
+
+                $this->setNotifiedTimestamp();
+                break;
+            default:
+                throw new CheckinActionException('Undefined notify type provided.');
         }
     }
 
     /**
      * Makes first request.
      *
-     * @throws \Exception
+     * @throws CheckinActionException
      */
     private function execRequest1()
     {
@@ -70,14 +117,14 @@ class CheckinLib
         if (strpos($response, self::AIRLINE_ERROR_NEEDLE) === false) {
             $this->sessionId = self::getSessionId($response);
         } else {
-            throw new \Exception();
+            throw new CheckinActionException('Error detected in first request response.');
         }
     }
 
     /**
      * Makes second request.
      *
-     * @throws \Exception
+     * @throws CheckinActionException
      */
     private function execRequest2()
     {
@@ -94,7 +141,7 @@ class CheckinLib
 
         // error occurred if Southwest tries to redirect.
         if (self::triesRedirect($response))
-            throw new \Exception();
+            throw new CheckinActionException('Error detected in second request response.');
     }
 
     /**
@@ -108,20 +155,31 @@ class CheckinLib
     }
 
     /**
-     * Increases attempt count by 1.
+     * Determines if passenger has already been notified.
+     *
+     * @return boolean
      */
-    protected function addAttempt()
+    protected function alreadyNotified()
     {
-        $this->flight->reservation->checkin->attempts++;
-        $this->flight->reservation->checkin->save();
+        return (!is_null($this->flight->reservation->checkinNotice->notified_at));
     }
 
     /**
-     * Notifies passenger by email that max no. of attempts reached.
+     * Updates notified_at to now.
      */
-    protected static function notifyFail()
+    protected function setNotifiedTimestamp()
     {
+        $this->flight->reservation->checkinNotice->notified_at = date(DateUtil::DATE_FORMAT_MYSQL);
+        $this->flight->reservation->checkinNotice->save();
+    }
 
+    /**
+     * Increases attempt count by 1.
+     */
+    protected function increaseCount()
+    {
+        $this->flight->reservation->checkin->attempts++;
+        $this->flight->reservation->checkin->save();
     }
 
     /**

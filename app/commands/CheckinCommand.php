@@ -3,7 +3,7 @@
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
-use FlightCheckin\CheckinLib;
+use FlightCheckin\CheckinAction;
 
 class CheckinCommand extends Command {
 
@@ -38,13 +38,18 @@ class CheckinCommand extends Command {
 	 */
 	public function fire()
 	{
-        $upcomingFlights = Flight::with('reservation.checkin', 'reservation.checkinNotice')->upcoming()->get();
+        try {
+            $upcomingFlights = Flight::with('reservation.checkin', 'reservation.checkinNotice')->upcoming()->get();
 
-        foreach ($upcomingFlights as $flight) {
-            $checkin = new CheckinLib($flight);
+            foreach ($upcomingFlights as $flight) {
+                $checkin = new CheckinAction($flight);
+                $checkin->attempt();
 
-
-            $this->info(var_export(CheckinController::attempt($flight), true));
+                $this->info(var_export(CheckinController::attempt($flight), true));
+            }
+        }
+        catch (\FlightCheckin\CheckinActionException $e) {
+            $this->error($e->getMessage());
         }
 	}
 }
