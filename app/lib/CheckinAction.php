@@ -44,12 +44,17 @@ class CheckinAction
      */
     public function attempt()
     {
+        if ($this->alreadyCheckedIn())
+            throw new CheckinActionException('Already checked in.');
+
         if (!$this->maxReached()) {
             $this->increaseCount();
 
-            echo 'make requests';
-            //$this->execRequest1();
-            //$this->execRequest2();
+            //echo 'make requests';
+            $this->execRequest1();
+            $this->execRequest2();
+
+            $this->setCheckedIn();
 
             $this->notify(self::NOTIFY_SUCCESS);
         } else {
@@ -173,6 +178,25 @@ class CheckinAction
     {
         $this->flight->reservation->checkinNotice->notified_at = date(DateUtil::DATE_FORMAT_MYSQL);
         $this->flight->reservation->checkinNotice->save();
+    }
+
+    /**
+     * Determines if reservation has already been checked in.
+     *
+     * @return boolean
+     */
+    protected function alreadyCheckedIn()
+    {
+        return ($this->flight->reservation->checkin->checked_in > 0);
+    }
+
+    /**
+     * Sets reservation as checked in.
+     */
+    protected function setCheckedIn()
+    {
+        $this->flight->reservation->checkin->checked_in = 1;
+        $this->flight->reservation->checkin->save();
     }
 
     /**
