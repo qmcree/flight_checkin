@@ -44,7 +44,7 @@ class CheckinAction
      */
     public function attempt()
     {
-        if ($this->beforeMax()) {
+        if (!$this->maxReached()) {
             $this->increaseCount();
 
             $this->execRequest1();
@@ -146,13 +146,13 @@ class CheckinAction
     }
 
     /**
-     * Determines if number of attempts are before max.
+     * Determines if reached max number of attempts.
      *
      * @return boolean
      */
-    protected function beforeMax()
+    protected function maxReached()
     {
-        return ($this->flight->reservation->checkin->attempts < self::ATTEMPT_MAX);
+        return ($this->flight->reservation->checkin->attempts >= self::ATTEMPT_MAX);
     }
 
     /**
