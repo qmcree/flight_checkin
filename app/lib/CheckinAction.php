@@ -117,10 +117,11 @@ class CheckinAction
                 $this->flight->reservation->confirmation_number, $this->flight->reservation->first_name, $this->flight->reservation->last_name),
         )));
         $response = curl_exec($request);
-        curl_close($request);
 
-        if ($response === FALSE)
-            throw new CheckinActionException('First request failed.');
+        if ($response === false)
+            throw new CheckinActionException(sprintf('First request failed. ([%d] %s)', curl_errno($request), curl_error($request)));
+
+        curl_close($request);
 
         // check for error in Southwest's response.
         if (strpos($response, self::AIRLINE_ERROR_NEEDLE) === false) {
@@ -145,10 +146,11 @@ class CheckinAction
             CURLOPT_POSTFIELDS => 'checkinPassengers[0].selected=true&printDocuments=Check+In',
         )));
         $response = curl_exec($request);
-        curl_close($request);
 
-        if ($response === FALSE)
-            throw new CheckinActionException('Second request failed.');
+        if ($response === false)
+            throw new CheckinActionException(sprintf('Second request failed. ([%d] %s)', curl_errno($request), curl_error($request)));
+
+        curl_close($request);
 
         // error occurred if Southwest tries to redirect.
         if (self::triesRedirect($response))
