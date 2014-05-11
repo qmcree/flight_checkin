@@ -44,8 +44,6 @@ class CheckinCommand extends Command {
             foreach ($upcomingFlights as $flight) {
                 $checkin = new CheckinAction($flight);
                 $checkin->attempt();
-
-                $this->info(var_export(CheckinController::attempt($flight), true));
             }
         }
         catch (\FlightCheckin\CheckinActionException $e) {
