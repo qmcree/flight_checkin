@@ -38,16 +38,16 @@ class CheckinCommand extends Command {
 	 */
 	public function fire()
 	{
-        try {
-            $upcomingFlights = Flight::with('reservation.checkin', 'reservation.checkinNotice')->upcoming()->get();
+        $upcomingFlights = Flight::with('reservation.checkin', 'reservation.checkinNotice')->upcoming()->get();
 
-            foreach ($upcomingFlights as $flight) {
+        foreach ($upcomingFlights as $flight) {
+            try {
                 $checkin = new CheckinAction($flight);
                 $checkin->attempt();
             }
-        }
-        catch (\FlightCheckin\CheckinActionException $e) {
-            $this->error($e->getMessage());
+            catch (\FlightCheckin\CheckinActionException $e) {
+                $this->error($e->getMessage());
+            }
         }
 	}
 }

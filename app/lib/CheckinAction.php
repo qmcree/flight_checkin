@@ -112,7 +112,7 @@ class CheckinAction
         curl_setopt_array($request, array_merge($this->curlOptions, array(
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_MAXREDIRS => 3,
-            CURLOPT_REFERER => self::REQUEST_URL_1,
+            //CURLOPT_REFERER => self::REQUEST_URL_1,
             CURLOPT_POSTFIELDS => sprintf('confirmationNumber=%s&firstName=%s&lastName=%s&submitButton=Check+In',
                 $this->flight->reservation->confirmation_number, $this->flight->reservation->first_name, $this->flight->reservation->last_name),
         )));
