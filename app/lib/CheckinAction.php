@@ -47,8 +47,9 @@ class CheckinAction
         if (!$this->maxReached()) {
             $this->increaseCount();
 
-            $this->execRequest1();
-            $this->execRequest2();
+            echo 'make requests';
+            //$this->execRequest1();
+            //$this->execRequest2();
 
             $this->notify(self::NOTIFY_SUCCESS);
         } else {
