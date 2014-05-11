@@ -50,7 +50,6 @@ class CheckinAction
         if (!$this->maxReached()) {
             $this->increaseCount();
 
-            //echo 'make requests';
             $this->execRequest1();
             $this->execRequest2();
 
@@ -120,6 +119,9 @@ class CheckinAction
         $response = curl_exec($request);
         curl_close($request);
 
+        if ($response === FALSE)
+            throw new CheckinActionException('First request failed.');
+
         // check for error in Southwest's response.
         if (strpos($response, self::AIRLINE_ERROR_NEEDLE) === false) {
             $this->sessionId = self::getSessionId($response);
@@ -143,8 +145,10 @@ class CheckinAction
             CURLOPT_POSTFIELDS => 'checkinPassengers[0].selected=true&printDocuments=Check+In',
         )));
         $response = curl_exec($request);
-
         curl_close($request);
+
+        if ($response === FALSE)
+            throw new CheckinActionException('Second request failed.');
 
         // error occurred if Southwest tries to redirect.
         if (self::triesRedirect($response))
