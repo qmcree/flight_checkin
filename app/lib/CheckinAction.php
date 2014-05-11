@@ -18,7 +18,16 @@ class CheckinAction
     const NOTIFY_SUCCESS_SUBJECT = "You're checked in!";
     const NOTIFY_MAX_SUBJECT = "Unable to automate your checkin";
 
-    protected $flight, $curlOptions, $sessionId;
+    protected $flight;
+    protected $curlOptions = array(
+        CURLOPT_COOKIESESSION => true,
+        CURLOPT_POST => true,
+        CURLOPT_HEADER => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_CONNECTTIMEOUT => 20,
+        CURLOPT_USERAGENT => self::USER_AGENT,
+    );
+    protected $sessionId;
 
     /**
      * @param \Flight $flight
@@ -26,14 +35,6 @@ class CheckinAction
     public function __construct($flight)
     {
         $this->flight = $flight;
-        $this->curlOptions = array(
-            CURLOPT_COOKIESESSION => true,
-            CURLOPT_POST => true,
-            CURLOPT_HEADER => true,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 20,
-            CURLOPT_USERAGENT => self::USER_AGENT,
-        );
     }
 
     /**

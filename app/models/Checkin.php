@@ -3,7 +3,8 @@
 class Checkin extends Eloquent
 {
     public $timestamps = false;
-    protected $primaryKey = 'reservation_id', $fillable = array('reservation_id', 'checked_in', 'attempts');
+    protected $primaryKey = 'reservation_id';
+    protected $fillable = array('reservation_id', 'checked_in', 'attempts');
 
     /**
      * Defines inverse reservation relation.

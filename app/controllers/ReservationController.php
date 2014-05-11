@@ -11,19 +11,14 @@ class ReservationController extends BaseController
     const ALERT_DANGER_DUPLICATE = "Looks like there's already a reservation with that confirmation number.";
     const ALERT_SUCCESS_EDIT = "Your reservation has been updated.";
 
-    protected $validatorRules;
-
-    public function __construct()
-    {
-        $this->validatorRules = array(
-            'date' => array('required', 'date_format:Y-m-d H:i:s'),
-            'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
-            'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
-            'last_name' => array('required', 'alpha', 'min:2', 'max:20'),
-            'email' => array('required', 'email', 'max:30'),
-            'timezone_id' => array('required', 'numeric', 'max:50'),
-        );
-    }
+    protected $validatorRules = array(
+        'date' => array('required', 'date_format:Y-m-d H:i:s'),
+        'confirmation_number' => array('required', 'alpha_num', 'min:5', 'max:12'),
+        'first_name' => array('required', 'alpha', 'min:2', 'max:20'),
+        'last_name' => array('required', 'alpha', 'min:2', 'max:20'),
+        'email' => array('required', 'email', 'max:30'),
+        'timezone_id' => array('required', 'numeric', 'max:50'),
+    );
 
     protected function showLookupForm()
     {
