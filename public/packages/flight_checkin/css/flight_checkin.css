@@ -17,6 +17,6 @@ body { padding-bottom: 50px; }
 #navbar-bottom { min-height: 0; border: 0; }
 #navbar-bottom p { text-align: center; margin: 3px; float: none; }
 
-#navbar-top, #content, #navbar-bottom { background-color: rgba(230, 92, 46, 0.6); }
+#navbar-top, #content, #navbar-bottom { background-color: rgba(230, 182, 115, 0.6); }
 
 #navbar-top, #navbar-bottom { border-radius: 0; }
