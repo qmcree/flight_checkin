@@ -115,8 +115,8 @@ class CheckinAction
 
         $response = json_decode($response);
 
-        if (!empty($response['errmsg']))
-            throw new CheckinActionException(sprintf('Error detected in second request response. (%s)', $response['errmsg']));
+        if (!empty($response->errmsg))
+            throw new CheckinActionException(sprintf('Error detected in second request response. (%s)', $response->errmsg));
     }
 
     /**
