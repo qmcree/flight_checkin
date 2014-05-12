@@ -50,7 +50,7 @@ class CheckinAction
         if (!$this->maxReached()) {
             $this->increaseCount();
 
-            $this->execRequest1();
+            //$this->execRequest1();
             $this->execRequest2();
 
             $this->setCheckedIn();
@@ -140,12 +140,13 @@ class CheckinAction
     private function execRequest2()
     {
         $request = curl_init(self::REQUEST_URL_2);
-        curl_setopt_array($request, array_merge($this->curlOptions, array(
+        curl_setopt_array($request, $this->curlOptions);
+        curl_setopt_array($request, array(
             CURLOPT_FOLLOWLOCATION => false,
             CURLOPT_REFERER => self::REQUEST_URL_1,
             CURLOPT_COOKIE => self::AIRLINE_SESSION_COOKIE . '=' . $this->sessionId,
             CURLOPT_POSTFIELDS => 'checkinPassengers[0].selected=true&printDocuments=Check+In',
-        )));
+        ));
         $response = curl_exec($request);
 
         if ($response === false)
