@@ -1,6 +1,7 @@
-<h2>You're all set, {{{ $reservation->first_name }}}.</h2>
+<h2>We've got you covered, {{{ $reservation->first_name }}}.</h2>
 
-<p>We'll automatically check you in 24 hours before your Southwest flight reservation, so you get to <strong>reap the benefits of boarding early</strong>!</p>
+<p>We'll automatically check you in 24 hours before your Southwest flight reservation, so you get to <strong>reap the benefits of boarding early</strong>! If we have any
+    trouble, we'll be sure to let you know.</p>
 
 <p>Here's what you gave us to check you in with:</p>
 

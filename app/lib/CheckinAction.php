@@ -9,25 +9,16 @@ class CheckinAction
     const ATTEMPT_MAX = 10;
     const AIRLINE_NAME = 'Southwest Airlines';
     const AIRLINE_SESSION_COOKIE = 'JSESSIONID';
-    const AIRLINE_ERROR_NEEDLE = 'id="errors"';
-    const REQUEST_URL_1 = 'http://www.southwest.com/flight/retrieveCheckinDoc.html';
-    const REQUEST_URL_2 = 'https://www.southwest.com/flight/selectPrintDocument.html';
-    const USER_AGENT = 'Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36';
+    //const AIRLINE_ERROR_NEEDLE = 'id="errors"';
+    const REQUEST_URL = 'https://mobile.southwest.com/middleware/MWServlet';
+    const USER_AGENT = 'Mozilla/5.0 (iPad; CPU OS 7_0_2 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A501 Safari/9537.53';
     const NOTIFY_SUCCESS = 8;
     const NOTIFY_MAX = 16;
     const NOTIFY_SUCCESS_SUBJECT = "You're checked in!";
     const NOTIFY_MAX_SUBJECT = "Unable to automate your checkin";
 
     protected $flight;
-    protected $curlOptions = array(
-        CURLOPT_COOKIESESSION => true,
-        CURLOPT_POST => true,
-        CURLOPT_HEADER => true,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_CONNECTTIMEOUT => 20,
-        CURLOPT_USERAGENT => self::USER_AGENT,
-    );
-    protected $sessionId;
+    protected $curlOptions;
 
     /**
      * @param \Flight $flight
@@ -35,6 +26,17 @@ class CheckinAction
     public function __construct($flight)
     {
         $this->flight = $flight;
+
+        $this->curlOptions = array(
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_COOKIESESSION => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => sprintf('recordLocator=%s&firstName=%s&lastName=%s&serviceID=flightcheckin_new&appID=swa&channel=wap&platform=thinclient&cacheid=&rcid=spaiphone',
+                $flight->reservation->confirmation_number, $flight->reservation->first_name, $flight->reservation->last_name),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 20,
+            CURLOPT_USERAGENT => self::USER_AGENT,
+        );
     }
 
     /**
@@ -50,8 +52,8 @@ class CheckinAction
         if (!$this->maxReached()) {
             $this->increaseCount();
 
-            $this->execRequest1();
-            $this->execRequest2();
+            if ($sessionId = $this->getValidSessionId())
+                $this->makeRequest($sessionId);
 
             $this->setCheckedIn();
 
@@ -63,6 +65,62 @@ class CheckinAction
 
             throw new CheckinActionException('Already tried the max number of attempts.');
         }
+    }
+
+    /**
+     * Makes first request to obtain session ID from cookie.
+     *
+     * @throws CheckinActionException
+     * @return string Valid session ID.
+     */
+    private function getValidSessionId()
+    {
+        $request = curl_init(self::REQUEST_URL);
+        curl_setopt_array($request, $this->curlOptions);
+        curl_setopt_array($request, array(
+            CURLOPT_HEADER => true,
+        ));
+        $response = curl_exec($request);
+
+        if ($response === false)
+            throw new CheckinActionException(sprintf('First request failed. ([%d] %s)', curl_errno($request), curl_error($request)));
+
+        curl_close($request);
+
+        if ($sessionId = self::getSessionId($response)) {
+            return $sessionId;
+        } else {
+            throw new CheckinActionException('No session cookie found in first request.');
+        }
+    }
+
+    /**
+     * Makes second request with valid session.
+     *
+     * @param string $sessionId
+     * @throws CheckinActionException
+     */
+    private function makeRequest($sessionId)
+    {
+        $request = curl_init(self::REQUEST_URL);
+        curl_setopt_array($request, $this->curlOptions);
+        curl_setopt_array($request, array(
+            CURLOPT_COOKIE => self::AIRLINE_SESSION_COOKIE . '=' . $sessionId,
+        ));
+        $response = curl_exec($request);
+
+        if ($response === false)
+            throw new CheckinActionException(sprintf('Second request failed. ([%d] %s)', curl_errno($request), curl_error($request)));
+
+        curl_close($request);
+
+        $response = json_decode($response);
+        var_dump($response);
+        exit;
+        /*
+        if ($response)
+            throw new CheckinActionException('Error detected in second request response.');
+        */
     }
 
     /**
@@ -99,64 +157,6 @@ class CheckinAction
             default:
                 throw new CheckinActionException('Undefined notify type provided.');
         }
-    }
-
-    /**
-     * Makes first request.
-     *
-     * @throws CheckinActionException
-     */
-    private function execRequest1()
-    {
-        $request = curl_init(self::REQUEST_URL_1);
-        curl_setopt_array($request, $this->curlOptions);
-        curl_setopt_array($request, array(
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_MAXREDIRS => 3,
-            CURLOPT_REFERER => self::REQUEST_URL_1,
-            CURLOPT_POSTFIELDS => sprintf('confirmationNumber=%s&firstName=%s&lastName=%s&submitButton=Check+In',
-                $this->flight->reservation->confirmation_number, $this->flight->reservation->first_name, $this->flight->reservation->last_name),
-        ));
-        $response = curl_exec($request);
-
-        if ($response === false)
-            throw new CheckinActionException(sprintf('First request failed. ([%d] %s)', curl_errno($request), curl_error($request)));
-
-        curl_close($request);
-
-        // check for error in Southwest's response.
-        if (strpos($response, self::AIRLINE_ERROR_NEEDLE) === false) {
-            $this->sessionId = self::getSessionId($response);
-        } else {
-            throw new CheckinActionException('Error detected in first request response.');
-        }
-    }
-
-    /**
-     * Makes second request.
-     *
-     * @throws CheckinActionException
-     */
-    private function execRequest2()
-    {
-        $request = curl_init(self::REQUEST_URL_2);
-        curl_setopt_array($request, $this->curlOptions);
-        curl_setopt_array($request, array(
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_REFERER => self::REQUEST_URL_1,
-            CURLOPT_COOKIE => self::AIRLINE_SESSION_COOKIE . '=' . $this->sessionId,
-            CURLOPT_POSTFIELDS => 'checkinPassengers[0].selected=true&printDocuments=Check+In',
-        ));
-        $response = curl_exec($request);
-
-        if ($response === false)
-            throw new CheckinActionException(sprintf('Second request failed. ([%d] %s)', curl_errno($request), curl_error($request)));
-
-        curl_close($request);
-
-        // error occurred if Southwest tries to redirect.
-        if (self::triesRedirect($response))
-            throw new CheckinActionException('Error detected in second request response.');
     }
 
     /**
@@ -237,24 +237,6 @@ class CheckinAction
         foreach ($cookies as $cookie) {
             if (isset($cookie->cookies[self::AIRLINE_SESSION_COOKIE]))
                 return $cookie->cookies[self::AIRLINE_SESSION_COOKIE];
-        }
-
-        return false;
-    }
-
-    /**
-     * Determines if response headers denote redirect.
-     * @param string $response
-     * @return boolean
-     */
-    protected static function triesRedirect($response)
-    {
-        $headers = http_parse_headers($response);
-
-        foreach ($headers as $k => $v) {
-            if (strtolower($k) === 'location') {
-                return true;
-            }
         }
 
         return false;
