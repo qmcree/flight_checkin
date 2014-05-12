@@ -114,12 +114,9 @@ class CheckinAction
         curl_close($request);
 
         $response = json_decode($response);
-        var_dump($response);
-        exit;
-        /*
-        if ($response)
-            throw new CheckinActionException('Error detected in second request response.');
-        */
+
+        if (!empty($response['errmsg']))
+            throw new CheckinActionException(sprintf('Error detected in second request response. (%s)', $response['errmsg']));
     }
 
     /**
