@@ -8,8 +8,7 @@ class CheckinAction
 {
     const ATTEMPT_MAX = 10;
     const AIRLINE_NAME = 'Southwest Airlines';
-    const AIRLINE_SESSION_COOKIE = 'JSESSIONID';
-    //const AIRLINE_ERROR_NEEDLE = 'id="errors"';
+    const AIRLINE_SESSION_COOKIE = 'cacheid';
     const REQUEST_URL = 'https://mobile.southwest.com/middleware/MWServlet';
     const USER_AGENT = 'Mozilla/5.0 (iPad; CPU OS 7_0_2 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A501 Safari/9537.53';
     const NOTIFY_SUCCESS = 8;
