@@ -9,6 +9,7 @@ class ReservationController extends BaseController
     const ALERT_SUCCESS_CREATE = "We will automatically check you in at the earliest possible time so you can board early!";
     const ALERT_DANGER_PAST = "Reservations cannot be in the past.";
     const ALERT_DANGER_DUPLICATE = "Looks like there's already a reservation with that confirmation number.";
+    const ALERT_DANGER_CLOSED = "This reservation cannot be looked up because either we've already checked it in or we've failed too many times.";
     const ALERT_SUCCESS_EDIT = "Your reservation has been updated.";
 
     protected $validatorRules = array(
@@ -56,7 +57,12 @@ class ReservationController extends BaseController
             ));
 
             if ($validator->passes()) {
-                $reservation = Reservation::where('confirmation_number', '=', Input::get('confirmation_number'))->first();
+                $reservation = Reservation::with('checkinNotice')->where('confirmation_number', '=', Input::get('confirmation_number'))->first();
+
+                if (!is_null($reservation->checkinNotice->notified_at)) {
+                    $this->setAlertDanger(self::ALERT_DANGER_CLOSED);
+                    return $this->showLookupForm();
+                }
 
                 if ((!is_null($reservation)) && ($reservation->first_name === Input::get('first_name')) && ($reservation->last_name === Input::get('last_name'))) {
                     self::authenticate($reservation->id);
