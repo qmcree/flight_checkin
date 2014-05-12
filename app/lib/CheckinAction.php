@@ -50,7 +50,7 @@ class CheckinAction
         if (!$this->maxReached()) {
             $this->increaseCount();
 
-            $this->execRequest1();
+            //$this->execRequest1();
             $this->execRequest2();
 
             $this->setCheckedIn();
