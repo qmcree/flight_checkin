@@ -13,7 +13,7 @@ class CreateCheckinNoticesTable extends Migration {
 	public function up()
 	{
 		Schema::create('checkin_notices', function($table) {
-            $table->integer('reservation_id')->unsigned();
+            $table->integer('reservation_id')->unsigned()->unique();
             $table->string('email', 30);
             $table->timestamp('notified_at')->nullable();
         });

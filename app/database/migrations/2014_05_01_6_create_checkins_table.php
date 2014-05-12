@@ -13,7 +13,7 @@ class CreateCheckinsTable extends Migration {
 	public function up()
 	{
 		Schema::create('checkins', function($table) {
-            $table->integer('reservation_id')->unsigned();
+            $table->integer('reservation_id')->unsigned()->unique();
             $table->tinyInteger('checked_in')->unsigned()->default(0);
             $table->tinyInteger('attempts')->unsigned()->default(0);
         });
