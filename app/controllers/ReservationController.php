@@ -20,6 +20,11 @@ class ReservationController extends BaseController
         'timezone_id' => array('required', 'numeric', 'max:50'),
     );
 
+    /**
+     * Renders lookup form.
+     *
+     * @return View
+     */
     protected function showLookupForm()
     {
         return $this->makeView('reservation.lookup');
@@ -27,6 +32,8 @@ class ReservationController extends BaseController
 
     /**
      * Set session for reservation ID.
+     *
+     * @param integer $id Reservation ID
      */
     protected static function authenticate($id)
     {
@@ -36,6 +43,8 @@ class ReservationController extends BaseController
     /**
      * Finds reservation_id based on parameters, sets session, and then redirects to show details.
      * GET parameters should contain 'confirmation_number', 'first_name', 'last_name'.
+     *
+     * @return \Illuminate\Http\RedirectResponse|View
      */
     public function lookup()
     {
@@ -68,6 +77,11 @@ class ReservationController extends BaseController
         }
     }
 
+    /**
+     * Renders create form.
+     *
+     * @return View
+     */
     public function showCreateForm()
     {
         $timezones = Timezone::all();
@@ -75,6 +89,11 @@ class ReservationController extends BaseController
         return $this->makeView('reservation.create', array( 'timezones' => $timezones, ));
     }
 
+    /**
+     * Creates new reservation.
+     *
+     * @return View
+     */
     public function create()
     {
         $validator = Validator::make(Input::all(), $this->validatorRules);
@@ -124,6 +143,7 @@ class ReservationController extends BaseController
                 $email->to(Input::get('email'), $name)->subject("You're all set.");
             });
 
+            self::authenticate($reservation->id);
             $this->setAlertSuccess(self::ALERT_SUCCESS_CREATE);
         } else {
             $messageHtml = self::renderMessages($validator->messages());
@@ -133,6 +153,12 @@ class ReservationController extends BaseController
         return $this->showCreateForm();
     }
 
+    /**
+     * Renders edit form.
+     *
+     * @param integer $id
+     * @return View
+     */
     public function showEditForm($id)
     {
         $reservation = Reservation::with('checkinNotice', 'flight.timezone')->find($id);
@@ -148,6 +174,12 @@ class ReservationController extends BaseController
         ));
     }
 
+    /**
+     * Edits reservation.
+     *
+     * @param integer $id
+     * @return View
+     */
     public function edit($id)
     {
         $validator = Validator::make(Input::all(), $this->validatorRules);
@@ -187,6 +219,12 @@ class ReservationController extends BaseController
         return $this->showEditForm($id);
     }
 
+    /**
+     * Deletes reservation.
+     *
+     * @param integer $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete($id)
     {
         Checkin::where('reservation_id', '=', $id)->delete();
