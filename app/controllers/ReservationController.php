@@ -59,12 +59,13 @@ class ReservationController extends BaseController
             if ($validator->passes()) {
                 $reservation = Reservation::with('checkinNotice')->where('confirmation_number', '=', Input::get('confirmation_number'))->first();
 
-                if (!is_null($reservation->checkinNotice->notified_at)) {
-                    $this->setAlertDanger(self::ALERT_DANGER_CLOSED);
-                    return $this->showLookupForm();
-                }
-
                 if ((!is_null($reservation)) && ($reservation->first_name === Input::get('first_name')) && ($reservation->last_name === Input::get('last_name'))) {
+
+                    if (!is_null($reservation->checkinNotice->notified_at)) {
+                        $this->setAlertDanger(self::ALERT_DANGER_CLOSED);
+                        return $this->showLookupForm();
+                    }
+
                     self::authenticate($reservation->id);
 
                     return Redirect::action('ReservationController@showEditForm', array('id' => $reservation->id));
