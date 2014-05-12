@@ -106,9 +106,7 @@ class CheckinAction
         curl_setopt_array($request, array(
             CURLOPT_COOKIE => self::AIRLINE_SESSION_COOKIE . '=' . $sessionId,
         ));
-        var_dump($sessionId);
-        exit;
-        //$response = curl_exec($request);
+        $response = curl_exec($request);
 
         if ($response === false)
             throw new CheckinActionException(sprintf('Second request failed. ([%d] %s)', curl_errno($request), curl_error($request)));
